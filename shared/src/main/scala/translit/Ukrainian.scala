@@ -57,6 +57,7 @@ object Ukrainian {
 
   val triGrams = Map(
     "aie" -> "ає",
+    "aiu" -> "аю",
     "pie" -> "пє",
     "tsk" -> "цк",
     "yis" -> "ийс",

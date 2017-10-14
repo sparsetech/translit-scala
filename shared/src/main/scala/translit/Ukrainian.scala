@@ -42,6 +42,7 @@ object Ukrainian {
     "ia" -> "я",
     "ie" -> "є",
     "iu" -> "ю",
+    "ei" -> "ей",
     "kh" -> "х",
     "sh" -> "ш",
     "ts" -> "ц",
@@ -58,13 +59,13 @@ object Ukrainian {
     "aie" -> "ає",
     "pie" -> "пє",
     "tsk" -> "цк",
+    "yis" -> "ийс",
     "zgh" -> "зг"
   )
 
   val fourGrams = Map(
     "khai" -> "хай",
-    "shch" -> "щ",
-    "yisk" -> "ийск"
+    "shch" -> "щ"
   )
 
   def restoreCase(str: String, cyrillic: String): String =
@@ -72,7 +73,7 @@ object Ukrainian {
     else if (str(0).isUpper) cyrillic.capitalize
     else cyrillic
 
-  def latinToCyrillic(text: String): String = {
+  def latinToCyrillic(text: String, apostrophes: Boolean = true): String = {
     val result = new StringBuilder(text.length)
 
     var i = 0
@@ -107,6 +108,19 @@ object Ukrainian {
       } else if (uniGramInfixes.contains(text(i).toLower)) {
         val cyrillic = uniGramInfixes(text(i).toLower)
         result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)
+        i += 1
+      } else if (text(i) == '\'') {
+        if (apostrophes) {
+          val lastThree     = if (i >= 3) text.substring(i - 3, i) else ""
+          val endApostrophe = Set('i', 'y')
+          val cyrillic = if (i + 1 < text.length
+            && lastThree != "ran"
+            && endApostrophe.contains(text(i + 1).toLower)) '\'' else 'ь'
+
+          result.append(
+            if (i > 0 && text(i - 1).isUpper) cyrillic.toUpper else cyrillic)
+        }
+
         i += 1
       } else {
         result.append(text(i))

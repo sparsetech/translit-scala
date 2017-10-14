@@ -6,10 +6,11 @@ translit-scala is a transliteration library for Scala and Scala.js. It implement
 translit.Ukrainian.latinToCyrillic("Kyiv")  // Київ
 ```
 
-The transliteration to Cyrillic does not restore soft signs (ь) or apostrophes ('):
+The transliteration to Cyrillic also restores soft signs (ь) and apostrophes ('):
 
 ```scala
-translit.Ukrainian.latinToCyrillic("Mariana")  // Маряна (correct form: Мар'яна)
+translit.Ukrainian.latinToCyrillic("Mar'iana")  // Мар'яна
+translit.Ukrainian.latinToCyrillic("p'iat'")    // п'ять
 ```
 
 ## Ukrainian
@@ -23,7 +24,7 @@ Furthermore, there are language-specific transliterations, e.g. in French and Ge
 
 Please refer to [Romanisation of Ukrainian](http://en.wikipedia.org/wiki/Romanization_of_Ukrainian) for more information.
 
-*National 2010* is the most recent standard and the one implemented by translit-scala. It requires to drop soft signs and apostrophes which make the conversion irreversible.
+*National 2010* is the most recent standard and the one implemented by translit-scala. As an extension, soft signs and apostrophes are restored. However, the standard requires to drop soft signs and apostrophes which makes the conversion irreversible. To comply with National 2010, you can set `apostrophes` to `false`.
 
 ### Credits
 The rules and examples were adapted from the following libraries:

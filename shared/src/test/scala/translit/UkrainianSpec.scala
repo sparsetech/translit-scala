@@ -5,7 +5,7 @@ import org.scalatest.FunSuite
 class UkrainianSpec extends FunSuite {
   val correctMapping = List(
     "Алушта" -> "Alushta",
-    "Андрій" -> "Andrii",
+    "Андрій" -> "Andriy",
     "Борщагівка" -> "Borshchahivka",
     "Борисенко" -> "Borysenko",
     "Вінниця" -> "Vinnytsia",
@@ -33,15 +33,15 @@ class UkrainianSpec extends FunSuite {
     "Іванків" -> "Ivankiv",
     "Іващенко" -> "Ivashchenko",
     "Їжакевич" -> "Yizhakevych",
-    "Кадиївка" -> "Kadyivka",
+    "Кадиївка" -> "Kadyjivka",
     "Йосипівка" -> "Yosypivka",
     "Стрий" -> "Stryi",
-    "Олексій" -> "Oleksii",
-    "Київ" -> "Kyiv",
+    "Олексій" -> "Oleksiy",
+    "Київ" -> "Kyjiv",
     "Коваленко" -> "Kovalenko",
     "Лебедин" -> "Lebedyn",
     "Леонід" -> "Leonid",
-    "Миколаїв" -> "Mykolaiv",
+    "Миколаїв" -> "Mykolajiv",
     "Маринич" -> "Marynych",
     "Ніжин" -> "Nizhyn",
     "Наталія" -> "Nataliia",
@@ -70,7 +70,7 @@ class UkrainianSpec extends FunSuite {
     "Щербухи" -> "Shcherbukhy",
     "Гоща" -> "Hoshcha",
     "Гаращенко" -> "Harashchenko",
-    "Юрій" -> "Yurii",
+    "Юрій" -> "Yuriy",
     "Корюківка" -> "Koriukivka",
     "Яготин" -> "Yahotyn",
     "Ярошенко" -> "Yaroshenko",
@@ -91,13 +91,17 @@ class UkrainianSpec extends FunSuite {
     }
   }
 
-  test("yi") {
-    assert(Ukrainian.latinToCyrillic("Kyiv") == "Київ")
+  test("yi / ji") {
+    assert(Ukrainian.latinToCyrillic("Kyjiv") == "Київ")
+    assert(Ukrainian.latinToCyrillic("Kryjivka") == "Криївка")
+    assert(Ukrainian.latinToCyrillic("Katehoriji") == "Категорії")
+
     assert(Ukrainian.latinToCyrillic("Stryis'kyi park") == "Стрийський парк")
     assert(Ukrainian.latinToCyrillic("Stryis'ka") == "Стрийська")
-    assert(Ukrainian.latinToCyrillic("kofeyin") == "кофеїн")
+    assert(Ukrainian.latinToCyrillic("kofejin") == "кофеїн")
     assert(Ukrainian.latinToCyrillic("pryiniatykh") == "прийнятих")
     assert(Ukrainian.latinToCyrillic("Staryi") == "Старий")
+    assert(Ukrainian.latinToCyrillic("Avtomyika") == "Автомийка")
   }
 
   test("Case sensitivity") {
@@ -162,7 +166,7 @@ class UkrainianSpec extends FunSuite {
   }
 
   test("Restore soft signs") {
-    assert(Ukrainian.latinToCyrillic("Ukrains'kyi") == "Український")
+    assert(Ukrainian.latinToCyrillic("Ukrajins'kyi") == "Український")
     assert(Ukrainian.latinToCyrillic("piran'ia") == "піранья")
     assert(Ukrainian.latinToCyrillic("vydaiet'sia", apostrophes = false) ==
       removeApostropheAndSoftSign("видається"))

@@ -37,37 +37,30 @@ object Ukrainian {
   )
 
   val biGramInfixes = Map(
-    "ai" -> "аї",
     "ch" -> "ч",
     "ia" -> "я",
     "ie" -> "є",
     "iu" -> "ю",
-    "iy" -> "ій",
-    "ei" -> "ей",
+    "ji" -> "ї",
     "kh" -> "х",
     "sh" -> "ш",
     "ts" -> "ц",
-    "yi" -> "иї",
-    "zh" -> "ж"
-  )
-
-  val biGramSuffixes = Map(
-    "ii" -> "ій",
+    "zh" -> "ж",
+    "ai" -> "ай",
+    "iy" -> "ій",
+    "ei" -> "ей",
     "yi" -> "ий"
   )
 
   val triGrams = Map(
     "aie" -> "ає",
     "aiu" -> "аю",
-    "eyi" -> "еї",
-    "ryi" -> "рий",
     "pie" -> "пє",
     "tsk" -> "цк",
     "zgh" -> "зг"
   )
 
   val fourGrams = Map(
-    "khai" -> "хай",
     "shch" -> "щ"
   )
 
@@ -92,11 +85,6 @@ object Ukrainian {
       } else if (i + 2 <= text.length && biGramPrefixes.contains(text.substring(i, i + 2).toLowerCase) &&
           (i == 0 || (i - 1 >= 0 && !text(i - 1).isLetter))) {
         val cyrillic = biGramPrefixes(text.substring(i, i + 2).toLowerCase)
-        result.append(restoreCase(text.substring(i, i + 2), cyrillic))
-        i += 2
-      } else if (i + 2 <= text.length && biGramSuffixes.contains(text.substring(i, i + 2)) &&
-          (i + 2 == text.length || (i + 2 < text.length && !text(i + 2).isLetter))) {
-        val cyrillic = biGramSuffixes(text.substring(i, i + 2))
         result.append(restoreCase(text.substring(i, i + 2), cyrillic))
         i += 2
       } else if (i + 2 <= text.length && biGramInfixes.contains(text.substring(i, i + 2).toLowerCase)) {

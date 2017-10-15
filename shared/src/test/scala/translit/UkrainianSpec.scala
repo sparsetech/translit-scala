@@ -95,6 +95,9 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("Kyiv") == "Київ")
     assert(Ukrainian.latinToCyrillic("Stryis'kyi park") == "Стрийський парк")
     assert(Ukrainian.latinToCyrillic("Stryis'ka") == "Стрийська")
+    assert(Ukrainian.latinToCyrillic("kofeyin") == "кофеїн")
+    assert(Ukrainian.latinToCyrillic("pryiniatykh") == "прийнятих")
+    assert(Ukrainian.latinToCyrillic("Staryi") == "Старий")
   }
 
   test("Case sensitivity") {

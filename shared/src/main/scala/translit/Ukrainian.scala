@@ -106,6 +106,10 @@ object Ukrainian {
         val cyrillic = uniGramPrefixes(text(i).toLower)
         result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)
         i += 1
+      } else if ('c' == text(i).toLower) {
+        // Skip Latin `c` to avoid confusion as its Cyrillic counterpart has a
+        // different byte code
+        i += 1
       } else if (uniGramInfixes.contains(text(i).toLower)) {
         val cyrillic = uniGramInfixes(text(i).toLower)
         result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)

@@ -83,7 +83,7 @@ object Ukrainian {
         result.append(restoreCase(text.substring(i, i + 3), cyrillic))
         i += 3
       } else if (i + 2 <= text.length && biGramPrefixes.contains(text.substring(i, i + 2).toLowerCase) &&
-          (i == 0 || (i - 1 >= 0 && !text(i - 1).isLetter))) {
+          (i == 0 || (i - 1 >= 0 && text(i - 1).isWhitespace))) {
         val cyrillic = biGramPrefixes(text.substring(i, i + 2).toLowerCase)
         result.append(restoreCase(text.substring(i, i + 2), cyrillic))
         i += 2
@@ -92,7 +92,7 @@ object Ukrainian {
         result.append(restoreCase(text.substring(i, i + 2), cyrillic))
         i += 2
       } else if (i + 2 <= text.length && uniGramPrefixes.contains(text(i).toLower) &&
-          (i == 0 || (i - 1 >= 0 && !text(i - 1).isLetter))) {
+          (i == 0 || (i - 1 >= 0 && text(i - 1).isWhitespace))) {
         val cyrillic = uniGramPrefixes(text(i).toLower)
         result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)
         i += 1
@@ -107,7 +107,7 @@ object Ukrainian {
       } else if (text(i) == '\'') {
         if (apostrophes) {
           val lastThree     = if (i >= 3) text.substring(i - 3, i) else ""
-          val endApostrophe = Set('i', 'y')
+          val endApostrophe = Set('i', 'j')
           val cyrillic = if (i + 1 < text.length
             && lastThree != "ran"
             && endApostrophe.contains(text(i + 1).toLower)) '\'' else 'ь'

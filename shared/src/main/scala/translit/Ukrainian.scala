@@ -1,11 +1,7 @@
 package translit
 
 object Ukrainian {
-  val uniGramPrefixes = Map(
-    'y' -> 'й'
-  )
-
-  val uniGramInfixes = Map(
+  val uniGrams = Map(
     'a' -> 'а',
     'b' -> 'б',
     'd' -> 'д',
@@ -29,40 +25,46 @@ object Ukrainian {
     'z' -> 'з'
   )
 
-  val biGramPrefixes = Map(
+  val biGrams = Map(
     "ya" -> "я",
     "ye" -> "є",
     "yi" -> "ї",
-    "yu" -> "ю"
-  )
+    "yu" -> "ю",
 
-  val biGramInfixes = Map(
+    "ay" -> "ай",
+    "ey" -> "ей",
+    "iy" -> "ій",
+    "yy" -> "ий",
+    "yo" -> "йо",
+
     "ch" -> "ч",
-
-    "ia" -> "я",
-    "ie" -> "є",
-    "ii" -> "ї",
-    "iu" -> "ю",
-
     "kh" -> "х",
     "sh" -> "ш",
     "ts" -> "ц",
     "zh" -> "ж",
-
-    "ay" -> "ай",
-    "iy" -> "ій",
-    "ey" -> "ей",
-    "yy" -> "ий",
-    "yo" -> "йо"
   )
 
   val triGrams = Map(
-    "aie" -> "ає",
-    "aiu" -> "аю",
-    "pie" -> "пє",
-    "iia" -> "ія",
-    "iie" -> "іє",
-    "iii" -> "ії",
+    "aya" -> "ая",
+    "aye" -> "ає",
+    "ayi" -> "аї",
+    "ayu" -> "аю",
+
+    "eya" -> "ея",
+    "eye" -> "еє",
+    "eyi" -> "еї",
+    "eyu" -> "ею",
+
+    "iya" -> "ія",
+    "iye" -> "іє",
+    "iyi" -> "ії",
+    "iyu" -> "ію",
+
+    "yya" -> "ия",
+    "yye" -> "иє",
+    "yyi" -> "иї",
+    "yyu" -> "ию",
+
     "tsk" -> "цк",
     "zgh" -> "зг"
   )
@@ -72,30 +74,30 @@ object Ukrainian {
   )
 
   val apostrophePatterns = Set(
-    ('b', "ia"),
-    ('b', "ie"),
-    ('b', "iu"),
-    ('d', "iu"),
-    ('d', "ii"),
-    ('f', "ia"),
-    ('f', "iu"),
-    ('m', "ia"),
-    ('n', "ie"),
-    ('n', "iu"),
-    ('p', "ia"),
-    ('p', "ie"),
-    ('r', "ia"),
-    ('r', "ie"),
-    ('r', "iu"),
-    ('r', "ii"),
-    ('s', "ie"),
-    ('t', "ia"),
-    ('v', "ia"),
-    ('v', "ii"),
-    ('z', "ia"),
-    ('z', "ie"),
-    ('z', "iu"),
-    ('z', "ii")
+    ('b', "ya"),
+    ('b', "ye"),
+    ('b', "yu"),
+    ('d', "yu"),
+    ('d', "yi"),
+    ('f', "ya"),
+    ('f', "yu"),
+    ('m', "ya"),
+    ('n', "ye"),
+    ('n', "yu"),
+    ('p', "ya"),
+    ('p', "ye"),
+    ('r', "ya"),
+    ('r', "ye"),
+    ('r', "yu"),
+    ('r', "yi"),
+    ('s', "ye"),
+    ('t', "ya"),
+    ('v', "ya"),
+    ('v', "yi"),
+    ('z', "ya"),
+    ('z', "ye"),
+    ('z', "yu"),
+    ('z', "yi")
   )
 
   def restoreCase(str: String, cyrillic: String): String =
@@ -116,26 +118,16 @@ object Ukrainian {
         val cyrillic = triGrams(text.substring(i, i + 3).toLowerCase)
         result.append(restoreCase(text.substring(i, i + 3), cyrillic))
         i += 3
-      } else if (i + 2 <= text.length && biGramPrefixes.contains(text.substring(i, i + 2).toLowerCase) &&
-          (i == 0 || (i - 1 >= 0 && text(i - 1).isWhitespace))) {
-        val cyrillic = biGramPrefixes(text.substring(i, i + 2).toLowerCase)
+      } else if (i + 2 <= text.length && biGrams.contains(text.substring(i, i + 2).toLowerCase)) {
+        val cyrillic = biGrams(text.substring(i, i + 2).toLowerCase)
         result.append(restoreCase(text.substring(i, i + 2), cyrillic))
         i += 2
-      } else if (i + 2 <= text.length && biGramInfixes.contains(text.substring(i, i + 2).toLowerCase)) {
-        val cyrillic = biGramInfixes(text.substring(i, i + 2).toLowerCase)
-        result.append(restoreCase(text.substring(i, i + 2), cyrillic))
-        i += 2
-      } else if (i + 2 <= text.length && uniGramPrefixes.contains(text(i).toLower) &&
-          (i == 0 || (i - 1 >= 0 && text(i - 1).isWhitespace))) {
-        val cyrillic = uniGramPrefixes(text(i).toLower)
-        result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)
-        i += 1
       } else if ('c' == text(i).toLower) {
         // Skip Latin `c` to avoid confusion as its Cyrillic counterpart has a
         // different byte code
         i += 1
-      } else if (uniGramInfixes.contains(text(i).toLower)) {
-        val cyrillic = uniGramInfixes(text(i).toLower)
+      } else if (uniGrams.contains(text(i).toLower)) {
+        val cyrillic = uniGrams(text(i).toLower)
         result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)
         i += 1
       } else if (text(i) == '\'') {

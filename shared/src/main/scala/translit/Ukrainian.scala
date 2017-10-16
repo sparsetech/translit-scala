@@ -41,6 +41,7 @@ object Ukrainian {
     "ia" -> "я",
     "ie" -> "є",
     "iu" -> "ю",
+    "io" -> "йо",
     "ji" -> "ї",
     "kh" -> "х",
     "sh" -> "ш",
@@ -106,14 +107,21 @@ object Ukrainian {
         i += 1
       } else if (text(i) == '\'') {
         if (apostrophes) {
-          val lastThree     = if (i >= 3) text.substring(i - 3, i) else ""
+          val last    = if (i >= 1) text(i - 1).toLower else '\u0000'
+          val nextTwo = text.slice(i + 1, i + 3).toLowerCase
+
+          val lastSoft      = Set('n', 'l')
+          val nextSoft      = Set("ia", "io", "iu")
           val endApostrophe = Set('i', 'j')
+
           val cyrillic = if (i + 1 < text.length
-            && lastThree != "ran"
+            && !(lastSoft.contains(last) && nextSoft.contains(nextTwo))
             && endApostrophe.contains(text(i + 1).toLower)) '\'' else 'ь'
 
           result.append(
-            if (i > 0 && text(i - 1).isUpper) cyrillic.toUpper else cyrillic)
+            if (i > 0 && text(i - 1).isUpper &&
+              !(i == 1 || (i > 1 && text(i - 2).isWhitespace))
+            ) cyrillic.toUpper else cyrillic)
         }
 
         i += 1

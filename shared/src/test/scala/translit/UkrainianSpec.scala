@@ -168,6 +168,11 @@ class UkrainianSpec extends FunSuite {
   test("Restore soft signs") {
     assert(Ukrainian.latinToCyrillic("Ukrajins'kyi") == "Український")
     assert(Ukrainian.latinToCyrillic("piran'ia") == "піранья")
+    assert(Ukrainian.latinToCyrillic("N'iuton") == "Ньютон")
+    assert(Ukrainian.latinToCyrillic("batal'ion") == "батальйон")
+    assert(Ukrainian.latinToCyrillic("kan'ion") == "каньйон")
+    assert(Ukrainian.latinToCyrillic("montan'iar") == "монтаньяр")
+    assert(Ukrainian.latinToCyrillic("malen'kyi") == "маленький")
     assert(Ukrainian.latinToCyrillic("vydaiet'sia", apostrophes = false) ==
       removeApostropheAndSoftSign("видається"))
     assert(Ukrainian.latinToCyrillic("vydaiet'sia") == "видається")
@@ -212,6 +217,7 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("Al'bert Einshtein") == "Альберт Ейнштейн")
     assert(Ukrainian.latinToCyrillic("zdaiut'sia") == "здаються")
     assert(Ukrainian.latinToCyrillic("postiynomu") == "постійному")
+    assert(Ukrainian.latinToCyrillic("Yota") == "Йота")
   }
 
   test("s vs c") {

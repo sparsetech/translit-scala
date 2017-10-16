@@ -41,25 +41,28 @@ object Ukrainian {
 
     "ia" -> "я",
     "ie" -> "є",
-    "io" -> "йо",
+    "ii" -> "ї",
     "iu" -> "ю",
-    "ji" -> "ї",
 
     "kh" -> "х",
     "sh" -> "ш",
     "ts" -> "ц",
     "zh" -> "ж",
 
-    "ai" -> "ай",
+    "ay" -> "ай",
     "iy" -> "ій",
-    "ei" -> "ей",
-    "yi" -> "ий"
+    "ey" -> "ей",
+    "yy" -> "ий",
+    "yo" -> "йо"
   )
 
   val triGrams = Map(
     "aie" -> "ає",
     "aiu" -> "аю",
     "pie" -> "пє",
+    "iia" -> "ія",
+    "iie" -> "іє",
+    "iii" -> "ії",
     "tsk" -> "цк",
     "zgh" -> "зг"
   )
@@ -73,7 +76,7 @@ object Ukrainian {
     ('b', "ie"),
     ('b', "iu"),
     ('d', "iu"),
-    ('d', "ji"),
+    ('d', "ii"),
     ('f', "ia"),
     ('f', "iu"),
     ('m', "ia"),
@@ -84,15 +87,15 @@ object Ukrainian {
     ('r', "ia"),
     ('r', "ie"),
     ('r', "iu"),
-    ('r', "ji"),
+    ('r', "ii"),
     ('s', "ie"),
     ('t', "ia"),
     ('v', "ia"),
-    ('v', "ji"),
+    ('v', "ii"),
     ('z', "ia"),
     ('z', "ie"),
     ('z', "iu"),
-    ('z', "ji")
+    ('z', "ii")
   )
 
   def restoreCase(str: String, cyrillic: String): String =

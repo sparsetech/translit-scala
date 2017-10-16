@@ -156,9 +156,7 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("dyt'iasla") == "дит'ясла")
     assert(Ukrainian.latinToCyrillic("pan'ievropeis'kyi") == "пан'європейський")
     assert(Ukrainian.latinToCyrillic("piv'iabluka") == "пів'яблука")
-    assert(Ukrainian.latinToCyrillic("dyt'iasla") == "дит'ясла")
     assert(Ukrainian.latinToCyrillic("trans'ievropeis'kyi") == "транс'європейський")
-    assert(Ukrainian.latinToCyrillic("piv'iabluka") == "пів'яблука")
     assert(Ukrainian.latinToCyrillic("im'ia") == "ім'я")
     assert(Ukrainian.latinToCyrillic("M'iakyi") == "М'який")
     assert(Ukrainian.latinToCyrillic("ob'iekt") == "об'єкт")
@@ -167,7 +165,16 @@ class UkrainianSpec extends FunSuite {
 
   test("Restore soft signs") {
     assert(Ukrainian.latinToCyrillic("Ukrajins'kyi") == "Український")
+    assert(Ukrainian.latinToCyrillic("Yul'ien") == "Юльєн")
+    assert(Ukrainian.latinToCyrillic("Sedertel'ie") == "Седертельє")
+    assert(Ukrainian.latinToCyrillic("Lil'iedal'") == "Лільєдаль")
+    assert(Ukrainian.latinToCyrillic("Ven'ian") == "Веньян")
+    assert(Ukrainian.latinToCyrillic("N'iurd") == "Ньюрд")
     assert(Ukrainian.latinToCyrillic("piran'ia") == "піранья")
+    assert(Ukrainian.latinToCyrillic("piran'ji") == "піраньї")
+    assert(Ukrainian.latinToCyrillic("port'ie") == "портьє")
+    assert(Ukrainian.latinToCyrillic("port'iera") == "портьєра")
+    assert(Ukrainian.latinToCyrillic("rel'ief") == "рельєф")
     assert(Ukrainian.latinToCyrillic("N'iuton") == "Ньютон")
     assert(Ukrainian.latinToCyrillic("batal'ion") == "батальйон")
     assert(Ukrainian.latinToCyrillic("kan'ion") == "каньйон")
@@ -176,6 +183,10 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("vydaiet'sia", apostrophes = false) ==
       removeApostropheAndSoftSign("видається"))
     assert(Ukrainian.latinToCyrillic("vydaiet'sia") == "видається")
+
+    // Uncommon words where the soft sign cannot be restored
+    // assert(Ukrainian.latinToCyrillic("Yil't'iaur") == "Їльтьяур")
+    // assert(Ukrainian.latinToCyrillic("Gran'ierde") == "Ґраньєрде")
 
     // From https://uk.wikipedia.org/wiki/%D0%AC
     assert(Ukrainian.latinToCyrillic("vis'") == "вісь")

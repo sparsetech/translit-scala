@@ -38,15 +38,18 @@ object Ukrainian {
 
   val biGramInfixes = Map(
     "ch" -> "ч",
+
     "ia" -> "я",
     "ie" -> "є",
-    "iu" -> "ю",
     "io" -> "йо",
+    "iu" -> "ю",
     "ji" -> "ї",
+
     "kh" -> "х",
     "sh" -> "ш",
     "ts" -> "ц",
     "zh" -> "ж",
+
     "ai" -> "ай",
     "iy" -> "ій",
     "ei" -> "ей",
@@ -63,6 +66,31 @@ object Ukrainian {
 
   val fourGrams = Map(
     "shch" -> "щ"
+  )
+
+  val apostrophePatterns = Set(
+    ('b', "ia"),
+    ('b', "ie"),
+    ('b', "iu"),
+    ('d', "ji"),
+    ('f', "ia"),
+    ('f', "iu"),
+    ('m', "ia"),
+    ('n', "ie"),
+    ('p', "ia"),
+    ('p', "ie"),
+    ('r', "ia"),
+    ('r', "ie"),
+    ('r', "iu"),
+    ('r', "ji"),
+    ('s', "ie"),
+    ('t', "ia"),
+    ('v', "ia"),
+    ('v', "ji"),
+    ('z', "ia"),
+    ('z', "ie"),
+    ('z', "iu"),
+    ('z', "ji")
   )
 
   def restoreCase(str: String, cyrillic: String): String =
@@ -107,16 +135,10 @@ object Ukrainian {
         i += 1
       } else if (text(i) == '\'') {
         if (apostrophes) {
-          val last    = if (i >= 1) text(i - 1).toLower else '\u0000'
-          val nextTwo = text.slice(i + 1, i + 3).toLowerCase
-
-          val lastSoft      = Set('n', 'l')
-          val nextSoft      = Set("ia", "io", "iu")
-          val endApostrophe = Set('i', 'j')
-
-          val cyrillic = if (i + 1 < text.length
-            && !(lastSoft.contains(last) && nextSoft.contains(nextTwo))
-            && endApostrophe.contains(text(i + 1).toLower)) '\'' else 'ь'
+          val last     = if (i >= 1) text(i - 1).toLower else '\u0000'
+          val nextTwo  = text.slice(i + 1, i + 3).toLowerCase
+          val cyrillic =
+            if (apostrophePatterns.contains((last, nextTwo))) '\'' else 'ь'
 
           result.append(
             if (i > 0 && text(i - 1).isUpper &&

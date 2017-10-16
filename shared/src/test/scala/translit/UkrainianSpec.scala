@@ -161,6 +161,11 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("M'iakyi") == "М'який")
     assert(Ukrainian.latinToCyrillic("ob'iekt") == "об'єкт")
     assert(Ukrainian.latinToCyrillic("pam'iataty") == "пам'ятати")
+    assert(Ukrainian.latinToCyrillic("ad'iutant") == "ад'ютант")
+    assert(Ukrainian.latinToCyrillic("in'iektsiia") == "ін'єкція")
+    assert(Ukrainian.latinToCyrillic("kon'iunktyvit") == "кон'юнктивіт")
+    assert(Ukrainian.latinToCyrillic("kon'iunktura") == "кон'юнктура")
+    assert(Ukrainian.latinToCyrillic("Min'iust") == "Мін'юст")
   }
 
   test("Restore soft signs") {
@@ -169,13 +174,11 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("Sedertel'ie") == "Седертельє")
     assert(Ukrainian.latinToCyrillic("Lil'iedal'") == "Лільєдаль")
     assert(Ukrainian.latinToCyrillic("Ven'ian") == "Веньян")
-    assert(Ukrainian.latinToCyrillic("N'iurd") == "Ньюрд")
     assert(Ukrainian.latinToCyrillic("piran'ia") == "піранья")
     assert(Ukrainian.latinToCyrillic("piran'ji") == "піраньї")
     assert(Ukrainian.latinToCyrillic("port'ie") == "портьє")
     assert(Ukrainian.latinToCyrillic("port'iera") == "портьєра")
     assert(Ukrainian.latinToCyrillic("rel'ief") == "рельєф")
-    assert(Ukrainian.latinToCyrillic("N'iuton") == "Ньютон")
     assert(Ukrainian.latinToCyrillic("batal'ion") == "батальйон")
     assert(Ukrainian.latinToCyrillic("kan'ion") == "каньйон")
     assert(Ukrainian.latinToCyrillic("montan'iar") == "монтаньяр")
@@ -183,10 +186,8 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("vydaiet'sia", apostrophes = false) ==
       removeApostropheAndSoftSign("видається"))
     assert(Ukrainian.latinToCyrillic("vydaiet'sia") == "видається")
-
-    // Uncommon words where the soft sign cannot be restored
-    // assert(Ukrainian.latinToCyrillic("Yil't'iaur") == "Їльтьяур")
-    // assert(Ukrainian.latinToCyrillic("Gran'ierde") == "Ґраньєрде")
+    assert(Ukrainian.latinToCyrillic("pas'ians") == "пасьянс")
+    assert(Ukrainian.latinToCyrillic("kon'iak") == "коньяк")
 
     // From https://uk.wikipedia.org/wiki/%D0%AC
     assert(Ukrainian.latinToCyrillic("vis'") == "вісь")
@@ -210,6 +211,16 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("s'omyi") == "сьомий")
     assert(Ukrainian.latinToCyrillic("tr'okh") == "трьох")
     assert(Ukrainian.latinToCyrillic("t'okhkaty") == "тьохкати")
+
+    // TODO Words where the soft sign cannot be restored
+    // assert(Ukrainian.latinToCyrillic("N'iurd") == "Ньюрд")
+    // assert(Ukrainian.latinToCyrillic("N'iuton") == "Ньютон")
+    // assert(Ukrainian.latinToCyrillic("Yil't'iaur") == "Їльтьяур")
+    // assert(Ukrainian.latinToCyrillic("Gran'ierde") == "Ґраньєрде")
+    // assert(Ukrainian.latinToCyrillic("brakon'ier") == "браконьєр")
+    // assert(Ukrainian.latinToCyrillic("buton'ierka") == "бутоньєрка")
+    // assert(Ukrainian.latinToCyrillic("vin'ietka") == "віньєтка")
+    // assert(Ukrainian.latinToCyrillic("dos'ie") == "досьє")
   }
 
   test("Disambiguate soft signs and apostrophes") {

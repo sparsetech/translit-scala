@@ -38,26 +38,22 @@ We decompose letters in their Latin transliteration more consistently than Natio
 
 The Latin letter *y* is also the phonetic basis of four letters in the Slavic alphabet: я, є, ї, ю. They get transliterated accordingly:
 
-```
-ya -> я
-ye -> є
-yi -> ї
-yu -> ю
-```
+* ya → я
+* ye → є
+* yi → ї
+* yu → ю
 
 Unlike National 2010, we always use the same transliteration regardless of the position in the word.
 
 The accented counterpart of и is й. It is only used in conjunction with vowels. This lets us define the following rules without mapping й onto a separate letter:
 
-```
-ay -> ай
-ey -> ей
-iy -> ій
-yy -> ий
-yo -> йо
-```
+* ay → ай
+* ey → ей
+* iy → ій
+* yy → ий
+* yo → йо
 
-Examples:
+*Examples:*
 
 * kofeyin (кофеїн)
 * Zghurskyy (Згурський)

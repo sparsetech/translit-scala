@@ -91,7 +91,7 @@ class UkrainianSpec extends FunSuite {
     }
   }
 
-  test("ii / yy") {
+  test("yi / yy") {
     assert(Ukrainian.latinToCyrillic("Kyyiv") == "Київ")
     assert(Ukrainian.latinToCyrillic("Kryyivka") == "Криївка")
     assert(Ukrainian.latinToCyrillic("Katehoriyi") == "Категорії")

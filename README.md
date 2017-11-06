@@ -1,4 +1,4 @@
-# translit-scala
+# <img src="http://sparse.tech/opensource/icons/translit.svg" width="50%">
 translit-scala is a transliteration library for Scala and Scala.js. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet.
 
 ## Examples

@@ -121,6 +121,7 @@ class UkrainianSpec extends FunSuite {
   test("Retain apostrophes") {
     // From https://uk.wikipedia.org/wiki/%D0%90%D0%BF%D0%BE%D1%81%D1%82%D1%80%D0%BE%D1%84
     assert(Ukrainian.latinToCyrillic("Znam'yanka") == "Знам'янка")
+    assert(Ukrainian.latinToCyrillic("sim'yu") == "сім'ю")
     assert(Ukrainian.latinToCyrillic("kur'yer") == "кур'єр")
     assert(Ukrainian.latinToCyrillic("b'yu") == "б'ю")
     assert(Ukrainian.latinToCyrillic("p'ye") == "п'є")

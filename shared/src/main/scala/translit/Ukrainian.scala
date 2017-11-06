@@ -82,6 +82,7 @@ object Ukrainian {
     ('f', "ya"),
     ('f', "yu"),
     ('m', "ya"),
+    ('m', "yu"),
     ('n', "ye"),
     ('n', "yu"),
     ('p', "ya"),

@@ -19,7 +19,7 @@ There have been several attempts to standardise transliteration rules. For examp
 * Ukrayins'kyy pravopys (BGN/PCGN 1965)
 * Ukrains'kyi pravopys (National 1996)
 * Ukrainskyi pravopys ([National 2010](http://zakon1.rada.gov.ua/laws/show/55-2010-%D0%BF))
-* Ukrayins'kyy pravopys (**translit-scala**)
+* Ukrayins'kyy pravopys (*translit-scala*)
 
 Furthermore, there are language-specific transliterations, e.g. in German and French, that use the spelling conventions of the respective language (*sch* in German instead of *sh* in English).
 
@@ -53,10 +53,11 @@ The accented counterpart of и is й. It is only used in conjunction with vowels
 * yy → ий
 * yo → йо
 
-*Examples:*
+*Example:* Zghurskyy (Згурський)
 
-* kofeyin (кофеїн)
-* Zghurskyy (Згурський)
+Note that the four basic rules have a higher precedence over the й rules. This is needed for some words such as the following to be transliterated correctly:
+
+* kofeyin (кофеїн instead of кофейін)
 
 #### Soft Signs and Apostrophes
 The second change to National 2010 is that we try to restore soft signs and apostrophes:

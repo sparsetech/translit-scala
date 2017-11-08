@@ -1,5 +1,5 @@
 val Scala2_11  = "2.11.11"
-val Scala2_12  = "2.12.3"
+val Scala2_12  = "2.12.4"
 val ScalaTest  = "3.0.3"
 
 val SharedSettings = Seq(

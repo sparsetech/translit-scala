@@ -41,7 +41,7 @@ object Ukrainian {
     "kh" -> "х",
     "sh" -> "ш",
     "ts" -> "ц",
-    "zh" -> "ж",
+    "zh" -> "ж"
   )
 
   val triGrams = Map(
@@ -65,7 +65,6 @@ object Ukrainian {
     "yyi" -> "иї",
     "yyu" -> "ию",
 
-    "tsk" -> "цк",
     "zgh" -> "зг"
   )
 

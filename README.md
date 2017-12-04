@@ -34,7 +34,7 @@ There have been several attempts to standardise transliteration rules. For examp
 * Ukrayins'kyy pravopys (BGN/PCGN 1965)
 * Ukrains'kyi pravopys (National 1996)
 * Ukrainskyi pravopys ([National 2010](http://zakon1.rada.gov.ua/laws/show/55-2010-%D0%BF))
-* Ukrayins'kyy pravopys (*translit-scala*)
+* Ukrayins'kyj pravopys (*translit-scala*)
 
 Furthermore, there are language-specific transliterations, e.g. in German and French, that use the spelling conventions of the respective language (*sch* in German instead of *sh* in English).
 
@@ -60,25 +60,15 @@ The Latin letter *y* is also the phonetic basis of four letters in the Slavic al
 
 Unlike National 2010, we always use the same transliteration regardless of the position in the word.
 
-The accented counterpart of и is й. It is only used in conjunction with vowels. This lets us define the following rules without mapping й onto a separate letter:
+The accented counterpart of и is й and is represented by a separate letter, *j*.
 
-* ay → ай
-* ey → ей
-* iy → ій
-* yy → ий
-* yo → йо
-
-*Example:* Zghurskyy (Згурський)
-
-Note that the four basic rules have a higher precedence over the й rules. This is needed for some words such as the following to be transliterated correctly:
-
-* kofeyin (кофеїн instead of кофейін)
+*Example:* Zghurs'kyj (Згурський)
 
 #### Soft Signs and Apostrophes
 The second change to National 2010 is that we try to restore soft signs and apostrophes:
 
-* Ukrayins'kyy (Український)
-* malen'kyy (маленький)
+* Ukrayins'kyj (Український)
+* malen'kyj (маленький)
 
 This feature is experimental and can be disabled by setting `apostrophes` to `false`.
 

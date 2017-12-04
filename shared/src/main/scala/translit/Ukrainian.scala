@@ -1,6 +1,8 @@
 package translit
 
-object Ukrainian {
+import Helpers._
+
+object Ukrainian extends Language {
   val uniGrams = Map(
     'a' -> 'а',
     'b' -> 'б',
@@ -22,54 +24,29 @@ object Ukrainian {
     'u' -> 'у',
     'v' -> 'в',
     'y' -> 'и',
+    'j' -> 'й',
     'z' -> 'з'
   )
 
   val biGrams = Map(
-    "ya" -> "я",
-    "ye" -> "є",
-    "yi" -> "ї",
-    "yu" -> "ю",
+    "ya" -> 'я',
+    "ye" -> 'є',
+    "yi" -> 'ї',
+    "yu" -> 'ю',
 
-    "ay" -> "ай",
-    "ey" -> "ей",
-    "iy" -> "ій",
-    "yy" -> "ий",
-    "yo" -> "йо",
-
-    "ch" -> "ч",
-    "kh" -> "х",
-    "sh" -> "ш",
-    "ts" -> "ц",
-    "zh" -> "ж"
+    "ch" -> 'ч',
+    "kh" -> 'х',
+    "sh" -> 'ш',
+    "ts" -> 'ц',
+    "zh" -> 'ж'
   )
 
   val triGrams = Map(
-    "aya" -> "ая",
-    "aye" -> "ає",
-    "ayi" -> "аї",
-    "ayu" -> "аю",
-
-    "eya" -> "ея",
-    "eye" -> "еє",
-    "eyi" -> "еї",
-    "eyu" -> "ею",
-
-    "iya" -> "ія",
-    "iye" -> "іє",
-    "iyi" -> "ії",
-    "iyu" -> "ію",
-
-    "yya" -> "ия",
-    "yye" -> "иє",
-    "yyi" -> "иї",
-    "yyu" -> "ию",
-
-    "zgh" -> "зг"
+    "zgh" -> 'г'
   )
 
   val fourGrams = Map(
-    "shch" -> "щ"
+    "shch" -> 'щ'
   )
 
   val apostrophePatterns = Set(
@@ -100,56 +77,52 @@ object Ukrainian {
     ('z', "yi")
   )
 
-  def restoreCase(str: String, cyrillic: String): String =
-    if (str.forall(_.isUpper)) cyrillic.toUpperCase
-    else if (str(0).isUpper) cyrillic.capitalize
-    else cyrillic
+  /**
+    * Converts one character starting from `offset`
+    *
+    * @return (-2, c)  Replace last two characters by `c`
+    *         (-1, c)  Replace last character by `c`
+    *         ( 0, c)  Append character `c`
+    */
+  def latinToCyrillicOfs(text: String,
+                         offset: Int,
+                         apostrophes: Boolean = true): (Int, Char) = {
+    val ofs = offset + 1
+    if (ofs >= 4 &&
+      fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)
+    ) {
+      val chars    = text.substring(ofs - 4, ofs)
+      val cyrillic = fourGrams(chars.toLowerCase)
+      (-2, restoreCaseFirst(chars, cyrillic))
+    } else if (ofs >= 3 &&
+      triGrams.contains(text.substring(ofs - 3, ofs).toLowerCase)
+    ) {
+      val chars    = text.substring(ofs - 3, ofs)
+      val cyrillic = triGrams(chars.toLowerCase)
+      (-1, restoreCaseAll(chars, cyrillic))
+    } else if (ofs >= 2 &&
+      biGrams.contains(text.substring(ofs - 2, ofs).toLowerCase)
+    ) {
+      val chars = text.substring(ofs - 2, ofs)
+      val cyrillic = biGrams(chars.toLowerCase)
+      (-1, restoreCaseFirst(chars, cyrillic))
+    } else if (uniGrams.contains(text(ofs - 1).toLower)) {
+      val cyrillic = uniGrams(text(ofs - 1).toLower)
+      (0, if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic)
+    } else if (ofs >= 2 && text(ofs - 1) == '\'' && apostrophes) {
+      val last     = if (ofs >= 1) text(ofs - 2).toLower else '\u0000'
+      val nextTwo  = text.slice(ofs, ofs + 2).toLowerCase
+      val cyrillic =
+        if (apostrophePatterns.contains((last, nextTwo))) '\'' else 'ь'
+      val result = if (text(ofs - 2).isUpper) cyrillic.toUpper else cyrillic
 
-  def latinToCyrillic(text: String, apostrophes: Boolean = true): String = {
-    val result = new StringBuilder(text.length)
-
-    var i = 0
-    while (i < text.length) {
-      if (i + 4 <= text.length && fourGrams.contains(text.substring(i, i + 4).toLowerCase)) {
-        val cyrillic = fourGrams(text.substring(i, i + 4).toLowerCase)
-        result.append(restoreCase(text.substring(i, i + 4), cyrillic))
-        i += 4
-      } else if (i + 3 <= text.length && triGrams.contains(text.substring(i, i + 3).toLowerCase)) {
-        val cyrillic = triGrams(text.substring(i, i + 3).toLowerCase)
-        result.append(restoreCase(text.substring(i, i + 3), cyrillic))
-        i += 3
-      } else if (i + 2 <= text.length && biGrams.contains(text.substring(i, i + 2).toLowerCase)) {
-        val cyrillic = biGrams(text.substring(i, i + 2).toLowerCase)
-        result.append(restoreCase(text.substring(i, i + 2), cyrillic))
-        i += 2
-      } else if ('c' == text(i).toLower) {
-        // Skip Latin `c` to avoid confusion as its Cyrillic counterpart has a
-        // different byte code
-        i += 1
-      } else if (uniGrams.contains(text(i).toLower)) {
-        val cyrillic = uniGrams(text(i).toLower)
-        result.append(if (text(i).isUpper) cyrillic.toUpper else cyrillic)
-        i += 1
-      } else if (text(i) == '\'') {
-        if (apostrophes) {
-          val last     = if (i >= 1) text(i - 1).toLower else '\u0000'
-          val nextTwo  = text.slice(i + 1, i + 3).toLowerCase
-          val cyrillic =
-            if (apostrophePatterns.contains((last, nextTwo))) '\'' else 'ь'
-
-          result.append(
-            if (i > 0 && text(i - 1).isUpper &&
-              !(i == 1 || (i > 1 && text(i - 2).isWhitespace))
-            ) cyrillic.toUpper else cyrillic)
-        }
-
-        i += 1
-      } else {
-        result.append(text(i))
-        i += 1
-      }
+      (0, result)
+    } else if ('c' == text(ofs - 1).toLower) {
+      // Replace Latin `c` to avoid confusion as its Cyrillic counterpart has a
+      // different byte code
+      (0, 'ø')
+    } else {
+      (0, text(ofs - 1))
     }
-
-    result.mkString
   }
 }

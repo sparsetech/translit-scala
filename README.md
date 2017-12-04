@@ -72,11 +72,28 @@ The second change to National 2010 is that we try to restore soft signs and apos
 
 This feature is experimental and can be disabled by setting `apostrophes` to `false`.
 
+#### Convenience mappings
+Another modification was to provide the following mappings:
+
+* c → ц
+* q → щ
+* w → ш
+* x → х
+
+Note that these mappings are phonetically inaccurate. However, using them still has a few advantages:
+
+* Every letter of the Latin alphabet is covered
+* When the user types *ch*, we can map the first letter to *ц*, then replace it by *ч*
+* *w* has a similar shape to *ш*
+* *q* and *w* are located next to each other on the English keyboard, *щ* is therefore easy to find
+* *x* has the same shape as its Cyrillic counterpart
+
 ### Credits
 The rules and examples were adapted from the following libraries:
 
 * [translit-english-ukrainian](https://github.com/MarkovSergii/translit-english-ukrainian)
 * [translit-ua](https://github.com/dchaplinsky/translit-ua)
+* [translit.net](http://translit.net/)
 
 ## Licence
 translit-scala is licensed under the terms of the Apache v2.0 licence.

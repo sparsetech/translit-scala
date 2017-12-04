@@ -12,6 +12,7 @@ object Ukrainian extends Language {
     'g' -> 'ґ',
     'h' -> 'г',
     'i' -> 'і',
+    'j' -> 'й',
     'k' -> 'к',
     'l' -> 'л',
     'm' -> 'м',
@@ -24,8 +25,14 @@ object Ukrainian extends Language {
     'u' -> 'у',
     'v' -> 'в',
     'y' -> 'и',
-    'j' -> 'й',
-    'z' -> 'з'
+    'z' -> 'з',
+
+    // Mappings for more convenient typing. Allows us to cover every letter of
+    // the Latin alphabet
+    'c' -> 'ц',
+    'q' -> 'щ',
+    'w' -> 'ш',
+    'x' -> 'х'
   )
 
   val biGrams = Map(
@@ -117,10 +124,6 @@ object Ukrainian extends Language {
       val result = if (text(ofs - 2).isUpper) cyrillic.toUpper else cyrillic
 
       (0, result)
-    } else if ('c' == text(ofs - 1).toLower) {
-      // Replace Latin `c` to avoid confusion as its Cyrillic counterpart has a
-      // different byte code
-      (0, 'ø')
     } else {
       (0, text(ofs - 1))
     }

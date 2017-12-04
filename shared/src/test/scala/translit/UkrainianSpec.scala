@@ -246,14 +246,14 @@ class UkrainianSpec extends FunSuite {
   }
 
   test("s vs c") {
-    assert(Ukrainian.latinToCyrillic("vlacnym") == "влаøним")
+    assert(Ukrainian.latinToCyrillic("vlacnym") == "влацним")
     assert(Ukrainian.latinToCyrillic("vlasnym") == "власним")
   }
 
   test("Offsets") {
     assert(Ukrainian.latinToCyrillicOfs("shch", 0) == (0, 'с'))
     assert(Ukrainian.latinToCyrillicOfs("shch", 1) == (-1, 'ш'))
-    assert(Ukrainian.latinToCyrillicOfs("shch", 2) == (0, 'ø'))
+    assert(Ukrainian.latinToCyrillicOfs("shch", 2) == (0, 'ц'))
     assert(Ukrainian.latinToCyrillicOfs("shch", 3) == (-2, 'щ'))
     assert(Ukrainian.latinToCyrillicOfs("yeshch", 5) == (-2, 'щ'))
 
@@ -272,5 +272,10 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillicOfs("vych", 3) == (-1, 'ч'))
 
     assert(Ukrainian.latinToCyrillicOfs("zgh", 2) == (-1, 'г'))
+  }
+
+  test("Convenience mappings") {
+    assert(Ukrainian.latinToCyrillic("Puzata Xata") == "Пузата Хата")
+    assert(Ukrainian.latinToCyrillic("cqwx") == "цщшх")
   }
 }

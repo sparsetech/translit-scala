@@ -8,22 +8,21 @@ class RussianSpec extends FunSuite {
     "Борис" -> "Boris",
     "Валера" -> "Valera",
     "гвоздь" -> "gvozd'",
-    "днище" -> "dnishhe",
+    "днище" -> "dnishche",
     "Емеля" -> "Emelya",
     "ёлка" -> "yolka",
-    "ёлка" -> "jolka",
     "железо" -> "zhelezo",
     "зыбь" -> "zyb'",
     "Ильин" -> "Il'in",
     "Йемен" -> "Jemen",
     "киянка" -> "kiyanka",
-    "лещ" -> "leshh",
+    "лещ" -> "leshch",
     "мышьяк" -> "mysh'yak",
     "Новгород" -> "Novgorod",
     "овраг" -> "ovrag",
     "пьянство" -> "p'yanstvo",
-    "роща" -> "roshha",
-    "съел" -> "s#el",
+    "роща" -> "roshcha",
+    "съел" -> "s\"el",
     "тележка" -> "telezhka",
     "ухват" -> "uxvat",
     "ухват" -> "uhvat",
@@ -32,16 +31,11 @@ class RussianSpec extends FunSuite {
     "цвет" -> "cvet",
     "червь" -> "cherv'",
     "швея" -> "shveya",
-    "щавель" -> "shhavel'",
+    "щавель" -> "shchavel'",
     "электровоз" -> "yelektrovoz",
     "юла" -> "yula",
     "ягненок" -> "yagnenok",
   )
-
-  def removeApostropheAndSoftSign(str: String): String =
-    str
-      .replaceAll("ь", "")
-      .replaceAll("'", "")
 
   correctMapping.foreach {
     case (cyrillic, latin) =>

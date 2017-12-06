@@ -30,7 +30,7 @@ object Russian extends Language {
     'x' -> 'х',
     'y' -> 'ы',
     'z' -> 'з',
-    '\"' -> 'ъ'
+    '"' -> 'ъ'
   )
 
   val biGrams = Map(
@@ -42,8 +42,6 @@ object Russian extends Language {
     "yo" -> 'ё',
     "yu" -> 'ю'
   )
-
-  val triGrams = Map.empty[String, Char]
 
   val fourGrams = Map(
     "shch" -> 'щ'
@@ -65,11 +63,6 @@ object Russian extends Language {
       val chars = text.substring(ofs - 4, ofs)
       val cyrillic = fourGrams(chars.toLowerCase)
       (-2, restoreCaseFirst(chars, cyrillic))
-    } else if (ofs >= 3 &&
-               triGrams.contains(text.substring(ofs - 3, ofs).toLowerCase)) {
-      val chars = text.substring(ofs - 3, ofs)
-      val cyrillic = triGrams(chars.toLowerCase)
-      (-1, restoreCaseAll(chars, cyrillic))
     } else if (ofs >= 2 &&
                biGrams.contains(text.substring(ofs - 2, ofs).toLowerCase)) {
       val chars = text.substring(ofs - 2, ofs)

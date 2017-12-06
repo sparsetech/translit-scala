@@ -19,6 +19,7 @@ libraryDependencies += "tech.sparse" %%% "translit-scala" % "0.1.0"  // JavaScri
 ## Examples
 ```scala
 translit.Ukrainian.latinToCyrillic("Kyyiv")  // Київ
+translit.Russian.latinToCyrillic("pal'ma")   // пальма
 ```
 
 The transliteration to Cyrillic also restores soft signs (ь) and apostrophes ('):
@@ -87,6 +88,56 @@ Note that these mappings are phonetically inaccurate. However, using them still 
 * *w* has a similar shape to *ш*
 * *q* and *w* are located next to each other on the English keyboard, *щ* is therefore easy to find
 * *x* has the same shape as its Cyrillic counterpart
+
+## Russian
+We use rules similar to the previous rules from _Ukrainian_ transliteration.
+
+### Mapping
+| Latin | Cyrillic |
+|-------|----------|
+| a     | а        |
+| b     | б        |
+| c     | ц        |
+| d     | д        |
+| e     | е        |
+| f     | ф        |
+| g     | г        |
+| h     | х        |
+| i     | и        |
+| j     | й        |
+| k     | к        |
+| l     | л        |
+| m     | м        |
+| n     | н        |
+| o     | о        |
+| p     | п        |
+| q     | щ        |
+| r     | р        |
+| s     | с        |
+| t     | т        |
+| u     | у        |
+| v     | в        |
+| w     | ш        |
+| x     | х        |
+| y     | ы        |
+| z     | з        |
+| "     | ъ        |
+| ch    | ч        |
+| sh    | ш        |
+| ya    | я        |
+| ye    | э        |
+| zh    | ж        |
+| yo    | ё        |
+| yu    | ю        |
+| shch  | щ        |
+
+#### Examples
+| Russian | Transliterated |
+|---------|----------------|
+| Привет  | Privet         |
+| Съел    | S"el           |
+| Щётка   | Shchyotka      |
+| Льдина  | L'dina         |
 
 ### Credits
 The rules and examples were adapted from the following libraries:

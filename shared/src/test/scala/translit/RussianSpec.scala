@@ -45,4 +45,12 @@ class RussianSpec extends FunSuite {
             cyrillic)
       }
   }
+
+  test("Incremental translit") {
+    assert(Russian.latinToCyrillic("peсhkom", incrementalTranslit = true) == "пешком")
+    assert(Russian.latinToCyrillic("зhizn'", incrementalTranslit = true) == "жизнь")
+    assert(Russian.latinToCyrillic("zhizn'", incrementalTranslit = true) == "жизнь")
+    assert(Russian.latinToCyrillic("багазh", incrementalTranslit = true) == "багаж")
+    assert(Russian.latinToCyrillic("шцhetka", incrementalTranslit = true) == "щетка")
+  }
 }

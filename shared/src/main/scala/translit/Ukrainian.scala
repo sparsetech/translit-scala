@@ -120,7 +120,8 @@ object Ukrainian extends Language {
     ) {
       val chars    = text.substring(ofs - 3, ofs)
       val cyrillic = triGramsL(chars.toLowerCase)
-      (-1, restoreCaseAll(chars, cyrillic))
+      val newOffset = if (chars == "шцh") -2 else -1
+      (newOffset, restoreCaseAll(chars, cyrillic))
     } else if (ofs >= 2 &&
       biGramsL.contains(text.substring(ofs - 2, ofs).toLowerCase)
     ) {

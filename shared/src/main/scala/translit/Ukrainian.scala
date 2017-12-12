@@ -47,20 +47,19 @@ object Ukrainian extends Language {
     "ts" -> 'ц',
     "zh" -> 'ж'
   )
-
-  val biGramsIncremental = getIncrementalNgram(biGrams)
+  val biGramsIncremental = incrementalNgram(biGrams)
 
   val triGrams = Map(
     "zgh" -> 'г',
   )
-
-  val triGramsIncremental = getIncrementalNgram(triGrams) + ("шцh" -> 'щ')
+  val triGramsIncremental = incrementalNgram(triGrams) ++ Map(
+    "шцh" -> 'щ',
+    "зґh" -> 'г'
+  )
 
   val fourGrams = Map(
     "shch" -> 'щ'
   )
-
-  val fourGramIncremental = Map.empty[String, Char]
 
   val apostrophePatterns = Set(
     ('b', "ya"),
@@ -90,10 +89,6 @@ object Ukrainian extends Language {
     ('z', "yi")
   )
 
-  def getIncrementalNgram(ngram: Map[String, Char]): Map[String, Char] = ngram ++ ngram.map { case (prefix, value) =>
-    (latinToCyrillic(prefix.slice(0, prefix.length - 1), incrementalTranslit = true) + prefix.last, value)
-  }
-
   /**
     * Converts one character starting from `offset`
     *
@@ -104,24 +99,25 @@ object Ukrainian extends Language {
   def latinToCyrillicOfs(text: String,
                          offset: Int,
                          apostrophes: Boolean = true,
-                         incrementalTranslit: Boolean = false): (Int, Char) = {
-    val (biGramsL, triGramsL, fourGramsL) =
-      if (incrementalTranslit) (biGramsIncremental, triGramsIncremental, fourGramIncremental)
-      else (biGrams, triGrams, fourGrams)
+                         incremental: Boolean = false): (Int, Char) = {
+    val (biGramsL, triGramsL) =
+      if (incremental) (biGramsIncremental, triGramsIncremental)
+      else (biGrams, triGrams)
     val ofs = offset + 1
     if (ofs >= 4 &&
-      fourGramsL.contains(text.substring(ofs - 4, ofs).toLowerCase)
+      fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)
     ) {
       val chars    = text.substring(ofs - 4, ofs)
-      val cyrillic = fourGramsL(chars.toLowerCase)
+      val cyrillic = fourGrams(chars.toLowerCase)
       (-2, restoreCaseFirst(chars, cyrillic))
     } else if (ofs >= 3 &&
       triGramsL.contains(text.substring(ofs - 3, ofs).toLowerCase)
     ) {
       val chars    = text.substring(ofs - 3, ofs)
       val cyrillic = triGramsL(chars.toLowerCase)
-      val newOffset = if (chars == "шцh") -2 else -1
-      (newOffset, restoreCaseAll(chars, cyrillic))
+      if (incremental && chars.equalsIgnoreCase("шцh"))
+        (-2, restoreCaseFirst(chars, cyrillic))
+      else (-1, restoreCaseAll(chars, cyrillic))
     } else if (ofs >= 2 &&
       biGramsL.contains(text.substring(ofs - 2, ofs).toLowerCase)
     ) {

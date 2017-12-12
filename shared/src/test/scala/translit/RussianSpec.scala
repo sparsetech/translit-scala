@@ -37,20 +37,20 @@ class RussianSpec extends FunSuite {
     "ягненок" -> "yagnenok",
   )
 
-  correctMapping.foreach {
-    case (cyrillic, latin) =>
-      test(s"$latin -> $cyrillic") {
-        assert(
-          Russian.latinToCyrillic(latin) ==
-            cyrillic)
-      }
+  correctMapping.foreach { case (cyrillic, latin) =>
+    test(s"$latin -> $cyrillic") {
+      assert(Russian.latinToCyrillic(latin) == cyrillic)
+    }
   }
 
-  test("Incremental translit") {
-    assert(Russian.latinToCyrillic("peсhkom", incrementalTranslit = true) == "пешком")
-    assert(Russian.latinToCyrillic("зhizn'", incrementalTranslit = true) == "жизнь")
-    assert(Russian.latinToCyrillic("zhizn'", incrementalTranslit = true) == "жизнь")
-    assert(Russian.latinToCyrillic("багазh", incrementalTranslit = true) == "багаж")
-    assert(Russian.latinToCyrillic("шцhetka", incrementalTranslit = true) == "щетка")
+  test("Incremental transliteration") {
+    assert(Russian.latinToCyrillic("зh"    , incremental = true) == "ж")
+    assert(Russian.latinToCyrillic("шцh"   , incremental = true) == "щ")
+    assert(Russian.latinToCyrillic("Шцh"   , incremental = true) == "Щ")
+    assert(Russian.latinToCyrillic("багазh", incremental = true) == "багаж")
+
+    assert(Russian.latinToCyrillic("peshkom" ) == "пешком")
+    assert(Russian.latinToCyrillic("zhizn'"  ) == "жизнь")
+    assert(Russian.latinToCyrillic("shchetka") == "щетка")
   }
 }

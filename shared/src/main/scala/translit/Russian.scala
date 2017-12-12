@@ -3,7 +3,6 @@ package translit
 import translit.Helpers._
 
 object Russian extends Language {
-
   val uniGrams = Map(
     'a' -> 'а',
     'b' -> 'б',
@@ -43,8 +42,7 @@ object Russian extends Language {
     "yo" -> 'ё',
     "yu" -> 'ю'
   )
-
-  val biGramsIncremental = getIncrementalNgram(biGrams)
+  val biGramsIncremental = incrementalNgram(biGrams)
 
   val triGrams = Map.empty[String, Char]
   val triGramsIncremental = Map(
@@ -54,11 +52,6 @@ object Russian extends Language {
   val fourGrams = Map(
     "shch" -> 'щ'
   )
-  val fourGramsIncremental = Map.empty[String, Char]
-
-  def getIncrementalNgram(ngram: Map[String, Char]): Map[String, Char] = ngram ++ ngram.map { case (prefix, value) =>
-    (latinToCyrillic(prefix.slice(0, prefix.length - 1), incrementalTranslit = true) + prefix.last, value)
-  }
 
   /**
     * Converts one character starting from `offset`
@@ -70,15 +63,16 @@ object Russian extends Language {
   def latinToCyrillicOfs(text: String,
                          offset: Int,
                          apostrophes: Boolean = true,
-                         incrementalTranslit: Boolean = false): (Int, Char) = {
-    val (biGramsL, triGramsL, fourGramsL) =
-      if (incrementalTranslit) (biGramsIncremental, triGramsIncremental, fourGramsIncremental)
-      else (biGrams, triGrams, fourGrams)
+                         incremental: Boolean = false): (Int, Char) = {
+    val (biGramsL, triGramsL) =
+      if (incremental) (biGramsIncremental, triGramsIncremental)
+      else (biGrams, triGrams)
+
     val ofs = offset + 1
     if (ofs >= 4 &&
-        fourGramsL.contains(text.substring(ofs - 4, ofs).toLowerCase)) {
+        fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)) {
       val chars = text.substring(ofs - 4, ofs)
-      val cyrillic = fourGramsL(chars.toLowerCase)
+      val cyrillic = fourGrams(chars.toLowerCase)
       (-2, restoreCaseFirst(chars, cyrillic))
     } else if (ofs >= 3 &&
       triGramsL.contains(text.substring(ofs - 3, ofs).toLowerCase)) {

@@ -151,3 +151,4 @@ translit-scala is licensed under the terms of the Apache v2.0 licence.
 
 ## Contributors
 * Tim Nieradzik
+* Darkhan Kubigenov

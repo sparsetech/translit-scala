@@ -50,7 +50,7 @@ object Ukrainian extends Language {
   val biGramsIncremental = incrementalNgram(biGrams)
 
   val triGrams = Map(
-    "zgh" -> 'г',
+    "zgh" -> 'г'
   )
   val triGramsIncremental = incrementalNgram(triGrams) ++ Map(
     "шцh" -> 'щ',

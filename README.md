@@ -1,6 +1,6 @@
 # <img src="http://sparse.tech/opensource/icons/translit.svg" width="50%">
 [![Build Status](https://travis-ci.org/sparsetech/translit-scala.svg)](https://travis-ci.org/sparsetech/translit-scala)
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/tech.sparse/translit-scala_2.12/badge.svg)](https://maven-badges.herokuapp.com/maven-central/tech.sparse/translit-scala_2.12)
+[![Maven Central](https://img.shields.io/maven-central/v/tech.sparse/translit-scala_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22tech.sparse%22%20AND%20a%3A%22translit-scala_2.12%22)
 
 translit-scala is a transliteration library for Scala and Scala.js. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet.
 

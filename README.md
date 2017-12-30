@@ -12,8 +12,8 @@ translit-scala is a transliteration library for Scala and Scala.js. It implement
 
 ### Dependencies
 ```scala
-libraryDependencies += "tech.sparse" %%  "translit-scala" % "0.1.0"  // JVM
-libraryDependencies += "tech.sparse" %%% "translit-scala" % "0.1.0"  // JavaScript
+libraryDependencies += "tech.sparse" %%  "translit-scala" % "0.1.1"  // JVM
+libraryDependencies += "tech.sparse" %%% "translit-scala" % "0.1.1"  // JavaScript
 ```
 
 ## Examples

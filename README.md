@@ -1,4 +1,4 @@
-# <img src="http://sparse.tech/opensource/icons/translit.svg" width="50%">
+# <img src="http://sparse.tech/icons/translit.svg" width="50%">
 [![Build Status](https://travis-ci.org/sparsetech/translit-scala.svg)](https://travis-ci.org/sparsetech/translit-scala)
 [![Maven Central](https://img.shields.io/maven-central/v/tech.sparse/translit-scala_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22tech.sparse%22%20AND%20a%3A%22translit-scala_2.12%22)
 

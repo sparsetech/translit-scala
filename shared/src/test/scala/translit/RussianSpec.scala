@@ -47,9 +47,16 @@ class RussianSpec extends FunSuite {
     assert(Russian.latinToCyrillic("шцh"   , incremental = true) == "щ")
     assert(Russian.latinToCyrillic("Шцh"   , incremental = true) == "Щ")
     assert(Russian.latinToCyrillic("багазh", incremental = true) == "багаж")
+  }
 
+  test("Other words") {
     assert(Russian.latinToCyrillic("peshkom" ) == "пешком")
     assert(Russian.latinToCyrillic("zhizn'"  ) == "жизнь")
     assert(Russian.latinToCyrillic("shchetka") == "щетка")
+  }
+
+  test("Exceptions") {
+    assert(Russian.latinToCyrillic("vy") == "вы")
+    assert(Russian.latinToCyrillic("krasivy'e") == "красивые")
   }
 }

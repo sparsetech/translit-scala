@@ -40,7 +40,10 @@ object Russian extends Language {
     "ye" -> 'э',
     "zh" -> 'ж',
     "yo" -> 'ё',
-    "yu" -> 'ю'
+    "yu" -> 'ю',
+
+    // Exception; needed for words such as красивые
+    "y'" -> 'ы'
   )
   val biGramsIncremental = incrementalNgram(biGrams)
 

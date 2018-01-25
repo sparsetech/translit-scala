@@ -24,7 +24,6 @@ class RussianSpec extends FunSuite {
     "роща" -> "roshcha",
     "съел" -> "s\"el",
     "тележка" -> "telezhka",
-    "ухват" -> "uxvat",
     "ухват" -> "uhvat",
     "фольклор" -> "fol'klor",
     "халтура" -> "haltura",
@@ -34,7 +33,7 @@ class RussianSpec extends FunSuite {
     "щавель" -> "shchavel'",
     "электровоз" -> "yelektrovoz",
     "юла" -> "yula",
-    "ягненок" -> "yagnenok",
+    "ягненок" -> "yagnenok"
   )
 
   correctMapping.foreach { case (cyrillic, latin) =>

@@ -1,3 +1,5 @@
+.bloop/
+
 *.class
 *.log
 

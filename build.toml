@@ -1,0 +1,27 @@
+[project]
+scalaVersion   = "2.12.6"
+scalaJsVersion = "0.6.22"
+scalaOptions   = [
+  "-encoding", "UTF-8",
+  "-unchecked",
+  "-deprecation",
+  "-Xfuture",
+  "-Ywarn-numeric-widen",
+  "-feature",
+  "-Ypartial-unification"
+]
+testFrameworks = [
+  "org.scalatest.tools.Framework"
+]
+
+[module.translit]
+root    = "shared"
+sources = ["shared/src/main"]
+targets = ["js", "jvm"]
+
+[module.translit.test]
+sources   = ["shared/src/test"]
+targets   = ["js", "jvm"]
+scalaDeps = [
+  ["org.scalatest", "scalatest", "3.0.5"]
+]

@@ -1,0 +1,9 @@
+pipeline:
+  build:
+    image: bloop
+    pull: true
+    commands:
+      - blp-server &
+      - seed bloop
+      - bloop test translit-jvm
+      - sleep 2

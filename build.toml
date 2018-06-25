@@ -1,6 +1,6 @@
 [project]
 scalaVersion   = "2.12.6"
-scalaJsVersion = "0.6.22"
+scalaJsVersion = "0.6.23"
 scalaOptions   = [
   "-encoding", "UTF-8",
   "-unchecked",
@@ -16,11 +16,11 @@ testFrameworks = [
 
 [module.translit]
 root    = "shared"
-sources = ["shared/src/main"]
+sources = ["shared/src/main/scala"]
 targets = ["js", "jvm"]
 
 [module.translit.test]
-sources   = ["shared/src/test"]
+sources   = ["shared/src/test/scala"]
 targets   = ["js", "jvm"]
 scalaDeps = [
   ["org.scalatest", "scalatest", "3.0.5"]

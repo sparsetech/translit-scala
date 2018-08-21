@@ -46,7 +46,10 @@ object Ukrainian extends Language {
     "ch" -> 'ч',
     "sh" -> 'ш',
     "ts" -> 'ц',
-    "zh" -> 'ж'
+    "zh" -> 'ж',
+
+    // With the vertical bar, transliteration can be disabled.
+    "s|" -> 'с'
   )
   val biGramsIncremental = incrementalNgram(biGrams)
 

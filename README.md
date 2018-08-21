@@ -92,8 +92,24 @@ Note that these mappings are phonetically inaccurate. However, using them still 
     * *q* and *w* are located next to each other; *ш* and *щ* characters are phonetically close
     * *z* and *x* are located next to each other; *з* and *ж* characters are phonetically close
 
+#### Precedence
+The replacement patterns are applied sequentially by traversing the input character-by-character. In some cases, a rule spanning multiple characters should not be applied. An example is the word: схильність. The transliteration of *сх* corresponds to two separate letters *s* and *h*, which would map to *ш*. To prevent this, one can place a vertical bar between the two characters. The full transliteration then looks as follows: *s|hyl'nist*
+
 ## Russian
-We use rules similar to the previous rules from _Ukrainian_ transliteration.
+The Russian rules are similar to the Ukrainian ones.
+
+Some differences are:
+
+* *i* corresponds to *и*, whereas *y* to *ы*
+* Russian distinguishes between soft and hard signs. It does not have apostrophes. The following mappings are used:
+  * Soft sign: *'* for ь
+  * Hard sign: *"* for ъ
+
+### Precedence
+As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules from being applied.
+
+* красивые: krasivy|e
+* сходить: s|hodit
 
 ### Mapping
 | Latin | Cyrillic |

@@ -251,6 +251,11 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("vlasnym") == "власним")
   }
 
+  test("сх") {
+    assert(Ukrainian.latinToCyrillic("s|hyl'nist'") == "схильність")
+    assert(Ukrainian.latinToCyrillic("s|hopyv") == "схопив")
+  }
+
   test("Offsets") {
     assert(Ukrainian.latinToCyrillicOfs("shch", 0) == (0, 'с'))
     assert(Ukrainian.latinToCyrillicOfs("shch", 1) == (-1, 'ш'))

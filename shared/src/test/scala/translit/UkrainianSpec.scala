@@ -257,28 +257,27 @@ class UkrainianSpec extends FunSuite {
   }
 
   test("Offsets") {
-    assert(Ukrainian.latinToCyrillicOfs("shch", 0) == (0, 'с'))
-    assert(Ukrainian.latinToCyrillicOfs("shch", 1) == (-1, 'ш'))
-    assert(Ukrainian.latinToCyrillicOfs("shch", 2) == (0, 'ц'))
-    assert(Ukrainian.latinToCyrillicOfs("shch", 3) == (-2, 'щ'))
-    assert(Ukrainian.latinToCyrillicOfs("yeshch", 5) == (-2, 'щ'))
+    assert(Ukrainian.latinToCyrillicOne("", 's') == (0, 'с'))
+    assert(Ukrainian.latinToCyrillicOne("s" , 'h') == (-1, 'ш'))
+    assert(Ukrainian.latinToCyrillicOne("sh", 'c') == (0, 'ц'))
+    assert(Ukrainian.latinToCyrillicOne("shc", 'h') == (-2, 'щ'))
+    assert(Ukrainian.latinToCyrillicOne("yeshc", 'h') == (-2, 'щ'))
 
-    assert(Ukrainian.latinToCyrillicOfs("pryvit", 0) == (0, 'п'))
+    assert(Ukrainian.latinToCyrillicOne("", 'p') == (0, 'п'))
 
-    assert(Ukrainian.latinToCyrillicOfs("ya", 0) == (0, 'и'))
-    assert(Ukrainian.latinToCyrillicOfs("ya", 1) == (-1, 'я'))
-    assert(Ukrainian.latinToCyrillicOfs("ye", 0) == (0, 'и'))
-    assert(Ukrainian.latinToCyrillicOfs("ye", 1) == (-1, 'є'))
+    assert(Ukrainian.latinToCyrillicOne("", 'y') == (0, 'и'))
+    assert(Ukrainian.latinToCyrillicOne("y", 'a') == (-1, 'я'))
+    assert(Ukrainian.latinToCyrillicOne("y", 'e') == (-1, 'є'))
 
-    assert(Ukrainian.latinToCyrillicOfs("ay", 0) == (0, 'а'))
-    assert(Ukrainian.latinToCyrillicOfs("aya", 2) == (-1, 'я'))
+    assert(Ukrainian.latinToCyrillicOne("", 'a') == (0, 'а'))
+    assert(Ukrainian.latinToCyrillicOne("ay", 'a') == (-1, 'я'))
 
-    assert(Ukrainian.latinToCyrillicOfs("yach", 3) == (-1, 'ч'))
-    assert(Ukrainian.latinToCyrillicOfs("vych", 1) == (0, 'и'))
-    assert(Ukrainian.latinToCyrillicOfs("vych", 3) == (-1, 'ч'))
+    assert(Ukrainian.latinToCyrillicOne("yac", 'h') == (-1, 'ч'))
+    assert(Ukrainian.latinToCyrillicOne("v", 'y') == (0, 'и'))
+    assert(Ukrainian.latinToCyrillicOne("vyc", 'h') == (-1, 'ч'))
 
-    assert(Ukrainian.latinToCyrillicOfs("zg", 0) == (0, 'з'))
-    assert(Ukrainian.latinToCyrillicOfs("zg", 1) == (0, 'г'))
+    assert(Ukrainian.latinToCyrillicOne("", 'z') == (0, 'з'))
+    assert(Ukrainian.latinToCyrillicOne("z", 'g') == (0, 'г'))
   }
 
   test("Convenience mappings") {

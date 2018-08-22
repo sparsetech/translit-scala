@@ -52,17 +52,12 @@ object Russian extends Language {
     "shch" -> 'щ'
   )
 
-  /**
-    * Converts one character starting from `offset`
-    *
-    * @return (-2, c)  Replace last two characters by `c`
-    *         (-1, c)  Replace last character by `c`
-    *         ( 0, c)  Append character `c`
-    */
-  def latinToCyrillicOfs(text: String,
-                         offset: Int,
+  def latinToCyrillicOne(left: String,
+                         c: Char,
+                         right: String,
                          apostrophes: Boolean = true): (Int, Char) = {
-    val ofs = offset + 1
+    val text = left + c
+    val ofs = text.length
     if (ofs >= 4 &&
         fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)) {
       val chars = text.substring(ofs - 4, ofs)

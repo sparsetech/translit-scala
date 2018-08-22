@@ -86,17 +86,12 @@ object Ukrainian extends Language {
     ('z', "yi")
   )
 
-  /**
-    * Converts one character starting from `offset`
-    *
-    * @return (-2, c)  Replace last two characters by `c`
-    *         (-1, c)  Replace last character by `c`
-    *         ( 0, c)  Append character `c`
-    */
-  def latinToCyrillicOfs(text: String,
-                         offset: Int,
+  def latinToCyrillicOne(left: String,
+                         c: Char,
+                         right: String,
                          apostrophes: Boolean = true): (Int, Char) = {
-    val ofs = offset + 1
+    val text = left + c
+    val ofs = text.length
     if (ofs >= 4 &&
       fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)
     ) {
@@ -120,7 +115,7 @@ object Ukrainian extends Language {
       (0, if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic)
     } else if (ofs >= 2 && text(ofs - 1) == '\'' && apostrophes) {
       val last     = if (ofs >= 1) text(ofs - 2).toLower else '\u0000'
-      val nextTwo  = text.slice(ofs, ofs + 2).toLowerCase
+      val nextTwo  = right.take(2).toLowerCase
       val cyrillic =
         if (apostrophePatterns.contains((last, nextTwo))) '\'' else 'ь'
       val result = if (text(ofs - 2).isUpper) cyrillic.toUpper else cyrillic

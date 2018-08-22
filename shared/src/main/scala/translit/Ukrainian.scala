@@ -51,11 +51,8 @@ object Ukrainian extends Language {
     // With the vertical bar, transliteration can be disabled.
     "s|" -> 'с'
   )
-  val biGramsIncremental = incrementalNgram(biGrams)
 
-  val triGramsIncremental = Map(
-    "шцh" -> 'щ'
-  )
+  val triGrams = Map[String, Char]()
 
   val fourGrams = Map(
     "shch" -> 'щ'
@@ -98,11 +95,7 @@ object Ukrainian extends Language {
     */
   def latinToCyrillicOfs(text: String,
                          offset: Int,
-                         apostrophes: Boolean = true,
-                         incremental: Boolean = false): (Int, Char) = {
-    val (biGramsL, triGramsL) =
-      if (incremental) (biGramsIncremental, triGramsIncremental)
-      else (biGrams, Map.empty[String, Char])
+                         apostrophes: Boolean = true): (Int, Char) = {
     val ofs = offset + 1
     if (ofs >= 4 &&
       fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)
@@ -111,18 +104,16 @@ object Ukrainian extends Language {
       val cyrillic = fourGrams(chars.toLowerCase)
       (-2, restoreCaseFirst(chars, cyrillic))
     } else if (ofs >= 3 &&
-      triGramsL.contains(text.substring(ofs - 3, ofs).toLowerCase)
+      triGrams.contains(text.substring(ofs - 3, ofs).toLowerCase)
     ) {
       val chars    = text.substring(ofs - 3, ofs)
-      val cyrillic = triGramsL(chars.toLowerCase)
-      if (incremental && chars.equalsIgnoreCase("шцh"))
-        (-2, restoreCaseFirst(chars, cyrillic))
-      else (-1, restoreCaseAll(chars, cyrillic))
+      val cyrillic = triGrams(chars.toLowerCase)
+      (-1, restoreCaseAll(chars, cyrillic))
     } else if (ofs >= 2 &&
-      biGramsL.contains(text.substring(ofs - 2, ofs).toLowerCase)
+      biGrams.contains(text.substring(ofs - 2, ofs).toLowerCase)
     ) {
       val chars = text.substring(ofs - 2, ofs)
-      val cyrillic = biGramsL(chars.toLowerCase)
+      val cyrillic = biGrams(chars.toLowerCase)
       (-1, restoreCaseFirst(chars, cyrillic))
     } else if (uniGrams.contains(text(ofs - 1).toLower)) {
       val cyrillic = uniGrams(text(ofs - 1).toLower)

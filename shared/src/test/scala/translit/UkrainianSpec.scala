@@ -284,11 +284,4 @@ class UkrainianSpec extends FunSuite {
   test("Convenience mappings") {
     assert(Ukrainian.latinToCyrillic("cqwx") == "цщшж")
   }
-
-  test("Incremental transliteration") {
-    assert(Ukrainian.latinToCyrillic("zg") == "зг")
-    assert(Ukrainian.latinToCyrillic("зg", incremental = true) == "зг")
-
-    assert(Ukrainian.latinToCyrillic("Шцh", incremental = true) == "Щ")
-  }
 }

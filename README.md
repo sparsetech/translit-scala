@@ -63,7 +63,7 @@ Unlike National 2010, we always use the same transliteration regardless of the p
 
 The accented counterpart of и is й and is represented by a separate letter, *j*.
 
-*Example:* Zghurs'kyj (Згурський)
+*Example:* Zhurs'kyj (Згурський)
 
 #### Soft Signs and Apostrophes
 The second change to National 2010 is that we try to restore soft signs and apostrophes:
@@ -79,18 +79,37 @@ Another modification was to provide the following mappings:
 * c → ц
 * q → щ
 * w → ш
-* x → х
+* x → ж
 
 Note that these mappings are phonetically inaccurate. However, using them still has a few advantages:
 
 * Every letter of the Latin alphabet is covered
-* When the user types *ch*, we can map the first letter to *ц*, then replace it by *ч*
-* *w* has a similar shape to *ш*
-* *q* and *w* are located next to each other on the English keyboard, *щ* is therefore easy to find
-* *x* has the same shape as its Cyrillic counterpart
+* When the user types *ch*, we can map the first letter to *ц*, then replace it by *ч*. Without this rule, the user would not get any visual feedback.
+* Furthermore, the following mappings were chosen considering the similarity in shapes:
+    * *w* has a similar shape to *ш*
+    * *x* has a similar shape to *ж*
+* Another advantage is the proximity on the English keyboard layout:
+    * *q* and *w* are located next to each other; *ш* and *щ* characters are phonetically close
+    * *z* and *x* are located next to each other; *з* and *ж* characters are phonetically close
+
+#### Precedence
+The replacement patterns are applied sequentially by traversing the input character-by-character. In some cases, a rule spanning multiple characters should not be applied. An example is the word: схильність. The transliteration of *сх* corresponds to two separate letters *s* and *h*, which would map to *ш*. To prevent this, one can place a vertical bar between the two characters. The full transliteration then looks as follows: *s|hyl'nist*
 
 ## Russian
-We use rules similar to the previous rules from _Ukrainian_ transliteration.
+The Russian rules are similar to the Ukrainian ones.
+
+Some differences are:
+
+* *i* corresponds to *и*, whereas *y* to *ы*
+* Russian distinguishes between soft and hard signs. It does not have apostrophes. The following mappings are used:
+  * Soft sign: *'* for ь
+  * Hard sign: *"* for ъ
+
+### Precedence
+As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules from being applied.
+
+* красивые: krasivy|e
+* сходить: s|hodit
 
 ### Mapping
 | Latin | Cyrillic |
@@ -118,7 +137,7 @@ We use rules similar to the previous rules from _Ukrainian_ transliteration.
 | u     | у        |
 | v     | в        |
 | w     | ш        |
-| x     | х        |
+| x     | ж        |
 | y     | ы        |
 | z     | з        |
 | "     | ъ        |

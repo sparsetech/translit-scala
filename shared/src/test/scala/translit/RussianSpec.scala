@@ -24,7 +24,6 @@ class RussianSpec extends FunSuite {
     "роща" -> "roshcha",
     "съел" -> "s\"el",
     "тележка" -> "telezhka",
-    "ухват" -> "uxvat",
     "ухват" -> "uhvat",
     "фольклор" -> "fol'klor",
     "халтура" -> "haltura",
@@ -34,7 +33,7 @@ class RussianSpec extends FunSuite {
     "щавель" -> "shchavel'",
     "электровоз" -> "yelektrovoz",
     "юла" -> "yula",
-    "ягненок" -> "yagnenok",
+    "ягненок" -> "yagnenok"
   )
 
   correctMapping.foreach { case (cyrillic, latin) =>
@@ -48,9 +47,20 @@ class RussianSpec extends FunSuite {
     assert(Russian.latinToCyrillic("шцh"   , incremental = true) == "щ")
     assert(Russian.latinToCyrillic("Шцh"   , incremental = true) == "Щ")
     assert(Russian.latinToCyrillic("багазh", incremental = true) == "багаж")
+  }
 
+  test("Other words") {
     assert(Russian.latinToCyrillic("peshkom" ) == "пешком")
     assert(Russian.latinToCyrillic("zhizn'"  ) == "жизнь")
     assert(Russian.latinToCyrillic("shchetka") == "щетка")
+  }
+
+  test("Exceptions") {
+    assert(Russian.latinToCyrillic("vy") == "вы")
+    assert(Russian.latinToCyrillic("rajon") == "район")
+    assert(Russian.latinToCyrillic("schitayu") == "считаю")
+    assert(Russian.latinToCyrillic("s|hodit'") == "сходить")
+    assert(Russian.latinToCyrillic("vy|uchil") == "выучил")
+    assert(Russian.latinToCyrillic("krasivy|e") == "красивые")
   }
 }

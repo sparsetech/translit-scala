@@ -9,8 +9,8 @@ object Ukrainian extends Language {
     'd' -> 'д',
     'e' -> 'е',
     'f' -> 'ф',
-    'g' -> 'ґ',
-    'h' -> 'г',
+    'g' -> 'г',
+    'h' -> 'х',
     'i' -> 'і',
     'j' -> 'й',
     'k' -> 'к',
@@ -32,7 +32,7 @@ object Ukrainian extends Language {
     'c' -> 'ц',
     'q' -> 'щ',
     'w' -> 'ш',
-    'x' -> 'х'
+    'x' -> 'ж'
   )
 
   val biGrams = Map(
@@ -41,20 +41,20 @@ object Ukrainian extends Language {
     "yi" -> 'ї',
     "yu" -> 'ю',
 
+    "g'" -> 'ґ',
+
     "ch" -> 'ч',
-    "kh" -> 'х',
     "sh" -> 'ш',
     "ts" -> 'ц',
-    "zh" -> 'ж'
+    "zh" -> 'ж',
+
+    // With the vertical bar, transliteration can be disabled.
+    "s|" -> 'с'
   )
   val biGramsIncremental = incrementalNgram(biGrams)
 
-  val triGrams = Map(
-    "zgh" -> 'г'
-  )
-  val triGramsIncremental = incrementalNgram(triGrams) ++ Map(
-    "шцh" -> 'щ',
-    "зґh" -> 'г'
+  val triGramsIncremental = Map(
+    "шцh" -> 'щ'
   )
 
   val fourGrams = Map(
@@ -102,7 +102,7 @@ object Ukrainian extends Language {
                          incremental: Boolean = false): (Int, Char) = {
     val (biGramsL, triGramsL) =
       if (incremental) (biGramsIncremental, triGramsIncremental)
-      else (biGrams, triGrams)
+      else (biGrams, Map.empty[String, Char])
     val ofs = offset + 1
     if (ofs >= 4 &&
       fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)

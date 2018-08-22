@@ -27,7 +27,7 @@ object Russian extends Language {
     'u' -> 'у',
     'v' -> 'в',
     'w' -> 'ш',
-    'x' -> 'х',
+    'x' -> 'ж',
     'y' -> 'ы',
     'z' -> 'з',
     '"' -> 'ъ'
@@ -40,7 +40,10 @@ object Russian extends Language {
     "ye" -> 'э',
     "zh" -> 'ж',
     "yo" -> 'ё',
-    "yu" -> 'ю'
+    "yu" -> 'ю',
+
+    "y|" -> 'ы',  // красивые, выучил
+    "s|" -> 'с'   // сходить
   )
   val biGramsIncremental = incrementalNgram(biGrams)
 

@@ -13,17 +13,15 @@ trait Language {
     */
   def latinToCyrillicOne(left: String = "",
                          c: Char,
-                         right: String = "",
-                         apostrophes: Boolean = true): (Int, Char)
+                         right: String = ""): (Int, Char)
 
-  def latinToCyrillic(text: String,
-                      apostrophes: Boolean = true): String = {
+  def latinToCyrillic(text: String): String = {
     val result = new StringBuilder(text.length)
     var offset = 0
 
     while (offset < text.length) {
       val (length, c) = latinToCyrillicOne(
-        text.take(offset), text(offset), text.drop(offset + 1), apostrophes)
+        text.take(offset), text(offset), text.drop(offset + 1))
       if (length < 0) result.setLength(result.length + length)
       result.append(c)
       offset += 1

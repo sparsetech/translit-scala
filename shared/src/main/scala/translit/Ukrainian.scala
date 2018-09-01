@@ -2,7 +2,11 @@ package translit
 
 import Helpers._
 
-object Ukrainian extends Language {
+/**
+  * @param apostrophes Enable context-dependent mapping of apostrophes.
+  *                    Requires access to right context.
+  */
+class Ukrainian(apostrophes: Boolean) extends Language {
   val uniGrams = Map(
     'a' -> 'а',
     'b' -> 'б',
@@ -86,10 +90,7 @@ object Ukrainian extends Language {
     ('z', "yi")
   )
 
-  def latinToCyrillicOne(left: String,
-                         c: Char,
-                         right: String,
-                         apostrophes: Boolean = true): (Int, Char) = {
+  def latinToCyrillicOne(left: String, c: Char, right: String): (Int, Char) = {
     val text = left + c
     val ofs = text.length
     if (ofs >= 4 &&
@@ -126,3 +127,5 @@ object Ukrainian extends Language {
     }
   }
 }
+
+object Ukrainian extends Ukrainian(apostrophes = true)

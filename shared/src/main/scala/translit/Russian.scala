@@ -30,6 +30,7 @@ object Russian extends Language {
     'x' -> 'ж',
     'y' -> 'ы',
     'z' -> 'з',
+    '\'' -> 'ь',
     '"' -> 'ъ'
   )
 
@@ -46,16 +47,13 @@ object Russian extends Language {
     "s|" -> 'с'   // сходить
   )
 
-  val triGrams = Map.empty[String, Char]
+  val triGrams = Map[String, Char]()
 
   val fourGrams = Map(
     "shch" -> 'щ'
   )
 
-  def latinToCyrillicOne(left: String,
-                         c: Char,
-                         right: String,
-                         apostrophes: Boolean = true): (Int, Char) = {
+  def latinToCyrillicOne(left: String, c: Char, right: String): (Int, Char) = {
     val text = left + c
     val ofs = text.length
     if (ofs >= 4 &&
@@ -76,8 +74,6 @@ object Russian extends Language {
     } else if (uniGrams.contains(text(ofs - 1).toLower)) {
       val cyrillic = uniGrams(text(ofs - 1).toLower)
       (0, if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic)
-    } else if (text(ofs - 1) == '\'' && apostrophes) {
-      if (text(ofs - 2).isUpper) (0, 'Ь') else (0, 'ь')
     } else {
       (0, text(ofs - 1))
     }

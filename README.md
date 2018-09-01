@@ -140,6 +140,7 @@ As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules
 | x     | ж        |
 | y     | ы        |
 | z     | з        |
+| '     | ь        |
 | "     | ъ        |
 | ch    | ч        |
 | sh    | ш        |

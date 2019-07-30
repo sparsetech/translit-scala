@@ -1,9 +1,9 @@
-pipeline:
-  build:
-    image: bloop
-    pull: true
+kind: pipeline
+name: default
+steps:
+  - name: test
+    image: tindzk/seed:0.1.4
     commands:
       - blp-server &
       - seed bloop
-      - bloop test translit-jvm
-      - sleep 2
+      - bloop test translit-jvm translit-js

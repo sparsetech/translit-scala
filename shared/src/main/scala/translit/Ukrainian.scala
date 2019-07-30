@@ -116,10 +116,13 @@ class Ukrainian(apostrophes: Boolean) extends Language {
       (0, if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic)
     } else if (ofs >= 2 && text(ofs - 1) == '\'' && apostrophes) {
       val last     = if (ofs >= 1) text(ofs - 2).toLower else '\u0000'
+      val next     = right.take(1).headOption
       val nextTwo  = right.take(2).toLowerCase
       val cyrillic =
         if (apostrophePatterns.contains((last, nextTwo))) '\'' else 'ь'
-      val result = if (text(ofs - 2).isUpper) cyrillic.toUpper else cyrillic
+      val result =
+        if (text(ofs - 2).isUpper && !next.exists(_.isLower)) cyrillic.toUpper
+        else cyrillic
 
       (0, result)
     } else {

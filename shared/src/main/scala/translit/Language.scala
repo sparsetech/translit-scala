@@ -4,24 +4,24 @@ trait Language {
   /**
     * Convert Latin character `c` to Cyrillic
     *
-    * @param left  Left context prior to mapping
-    * @param c     Character to be mapped
-    * @param right Right context after mapping
+    * @param latin     Latin input, excluding next character
+    * @param cyrillic  Mapped Cyrillic letters
+    * @param append    Latin letter to be mapped next
+    *
     * @return (-n, r)  Replace last `n` characters by `r` with `left.length >= n`
-    *         ( 0, r)  Append character `r`
-    *         ( n, r)  Replace next `n` characters by `r` with `right.length >= n`
+    *         ( 0, r)  Append string `r`
     */
-  def latinToCyrillicOne(left: String = "",
-                         c: Char,
-                         right: String = ""): (Int, Char)
+  def latinToCyrillicIncremental(
+    latin: String, cyrillic: String, append: Char
+  ): (Int, String)
 
   def latinToCyrillic(text: String): String = {
     val result = new StringBuilder(text.length)
     var offset = 0
 
     while (offset < text.length) {
-      val (length, c) = latinToCyrillicOne(
-        text.take(offset), text(offset), text.drop(offset + 1))
+      val (length, c) = latinToCyrillicIncremental(
+        text.take(offset), result.mkString, text(offset))
       if (length < 0) result.setLength(result.length + length)
       result.append(c)
       offset += 1

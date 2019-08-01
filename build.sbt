@@ -1,6 +1,6 @@
 val Scala2_11  = "2.11.12"
-val Scala2_12  = "2.12.4"
-val ScalaTest  = "3.0.4"
+val Scala2_12  = "2.12.8"
+val ScalaTest  = "3.0.8"
 
 val SharedSettings = Seq(
   name := "translit-scala",

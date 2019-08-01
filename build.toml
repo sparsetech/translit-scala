@@ -1,6 +1,6 @@
 [project]
-scalaVersion   = "2.12.6"
-scalaJsVersion = "0.6.23"
+scalaVersion   = "2.12.8"
+scalaJsVersion = "0.6.28"
 scalaOptions   = [
   "-encoding", "UTF-8",
   "-unchecked",
@@ -23,5 +23,5 @@ targets = ["js", "jvm"]
 sources   = ["shared/src/test/scala"]
 targets   = ["js", "jvm"]
 scalaDeps = [
-  ["org.scalatest", "scalatest", "3.0.5"]
+  ["org.scalatest", "scalatest", "3.0.8"]
 ]

@@ -15,6 +15,8 @@ trait Language {
     latin: String, cyrillic: String, append: Char
   ): (Int, String)
 
+  def cyrillicToLatinIncremental(cyrillic: String, letter: Char): (Int, String)
+
   def latinToCyrillic(text: String): String = {
     val result = new StringBuilder(text.length)
     var offset = 0
@@ -22,6 +24,21 @@ trait Language {
     while (offset < text.length) {
       val (length, c) = latinToCyrillicIncremental(
         text.take(offset), result.mkString, text(offset))
+      if (length < 0) result.setLength(result.length + length)
+      result.append(c)
+      offset += 1
+    }
+
+    result.mkString
+  }
+
+  def cyrillicToLatin(text: String): String = {
+    val result = new StringBuilder(text.length * 2)
+    var offset = 0
+
+    while (offset < text.length) {
+      val (length, c) = cyrillicToLatinIncremental(
+        text.take(offset), text(offset))
       if (length < 0) result.setLength(result.length + length)
       result.append(c)
       offset += 1

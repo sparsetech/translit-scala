@@ -255,30 +255,42 @@ class UkrainianSpec extends FunSuite {
   test("сх") {
     assert(Ukrainian.latinToCyrillic("s|hyl'nist'") == "схильність")
     assert(Ukrainian.latinToCyrillic("s|hopyv") == "схопив")
+    assert(Ukrainian.latinToCyrillic("s|hodi") == "сході")
   }
 
-  test("Offsets") {
-    assert(Ukrainian.latinToCyrillicOne("", 's') == (0, 'с'))
-    assert(Ukrainian.latinToCyrillicOne("s" , 'h') == (-1, 'ш'))
-    assert(Ukrainian.latinToCyrillicOne("sh", 'c') == (0, 'ц'))
-    assert(Ukrainian.latinToCyrillicOne("shc", 'h') == (-2, 'щ'))
-    assert(Ukrainian.latinToCyrillicOne("yeshc", 'h') == (-2, 'щ'))
+  test("Incremental interface") {
+    assert(Ukrainian.latinToCyrillicIncremental("", "", 's') == (0, "с"))
+    assert(Ukrainian.latinToCyrillicIncremental("s", "" , 'h') == (-1, "ш"))
+    assert(Ukrainian.latinToCyrillicIncremental("sh", "", 'c') == (0, "ц"))
+    assert(Ukrainian.latinToCyrillicIncremental("shc", "", 'h') == (-2, "щ"))
+    assert(Ukrainian.latinToCyrillicIncremental("yeshc", "", 'h') == (-2, "щ"))
 
-    assert(Ukrainian.latinToCyrillicOne("", 'p') == (0, 'п'))
+    assert(Ukrainian.latinToCyrillicIncremental("", "", 'p') == (0, "п"))
 
-    assert(Ukrainian.latinToCyrillicOne("", 'y') == (0, 'и'))
-    assert(Ukrainian.latinToCyrillicOne("y", 'a') == (-1, 'я'))
-    assert(Ukrainian.latinToCyrillicOne("y", 'e') == (-1, 'є'))
+    assert(Ukrainian.latinToCyrillicIncremental("", "", 'y') == (0, "и"))
+    assert(Ukrainian.latinToCyrillicIncremental("y", "", 'a') == (-1, "я"))
+    assert(Ukrainian.latinToCyrillicIncremental("y", "", 'e') == (-1, "є"))
 
-    assert(Ukrainian.latinToCyrillicOne("", 'a') == (0, 'а'))
-    assert(Ukrainian.latinToCyrillicOne("ay", 'a') == (-1, 'я'))
+    assert(Ukrainian.latinToCyrillicIncremental("", "", 'a') == (0, "а"))
+    assert(Ukrainian.latinToCyrillicIncremental("ay", "", 'a') == (-1, "я"))
 
-    assert(Ukrainian.latinToCyrillicOne("yac", 'h') == (-1, 'ч'))
-    assert(Ukrainian.latinToCyrillicOne("v", 'y') == (0, 'и'))
-    assert(Ukrainian.latinToCyrillicOne("vyc", 'h') == (-1, 'ч'))
+    assert(Ukrainian.latinToCyrillicIncremental("yac", "", 'h') == (-1, "ч"))
+    assert(Ukrainian.latinToCyrillicIncremental("v", "", 'y') == (0, "и"))
+    assert(Ukrainian.latinToCyrillicIncremental("vyc", "", 'h') == (-1, "ч"))
 
-    assert(Ukrainian.latinToCyrillicOne("", 'z') == (0, 'з'))
-    assert(Ukrainian.latinToCyrillicOne("z", 'g') == (0, 'г'))
+    assert(Ukrainian.latinToCyrillicIncremental("", "", 'z') == (0, "з"))
+    assert(Ukrainian.latinToCyrillicIncremental("z", "", 'g') == (0, "г"))
+
+    assert(Ukrainian.latinToCyrillicIncremental("b", "б", '\'') == (0, "ь"))
+    assert(Ukrainian.latinToCyrillicIncremental("b'", "бь", 'y') == (0, "и"))
+    assert(Ukrainian.latinToCyrillicIncremental("b'y", "бьи", 'u') == (-2, "'ю"))
+
+    assert(Ukrainian.latinToCyrillicIncremental("kin", "кін", '\'') == (0, "ь"))
+    assert(Ukrainian.latinToCyrillicIncremental("blyz'k", "близьк", 'o') == (0, "о"))
+
+    assert(Ukrainian.latinToCyrillic("S'") == "Сь")
+    assert(Ukrainian.latinToCyrillic("S'o") == "Сьо")
+    assert(Ukrainian.latinToCyrillic("S'O") == "СЬО")
   }
 
   test("Convenience mappings") {

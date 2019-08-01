@@ -68,8 +68,8 @@ The accented counterpart of и is й and is represented by a separate letter, *j
 #### Soft Signs and Apostrophes
 The second change to National 2010 is that we try to restore soft signs and apostrophes:
 
-* Ukrayins'kyj (Український)
-* malen'kyj (маленький)
+* Ukrayins'kyj (Український), malen'kyj (маленький)
+* m'yaso (м'ясо), matir'yu (матір'ю)
 
 This feature is experimental and can be disabled by setting `apostrophes` to `false`.
 

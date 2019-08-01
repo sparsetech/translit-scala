@@ -3,8 +3,8 @@ package translit
 import Helpers._
 
 /**
-  * @param apostrophes Enable context-dependent mapping of apostrophes.
-  *                    Requires access to right context.
+  * @param apostrophes Enable context-dependent mapping of ' to apostrophes or
+  *                    soft signs
   */
 class Ukrainian(apostrophes: Boolean) extends Language {
   val uniGrams = Map(
@@ -90,44 +90,72 @@ class Ukrainian(apostrophes: Boolean) extends Language {
     ('z', "yi")
   )
 
-  def latinToCyrillicOne(left: String, c: Char, right: String): (Int, Char) = {
-    val text = left + c
+  override def latinToCyrillicIncremental(
+    latin: String, cyrillic: String, append: Char
+  ): (Int, String) = {
+    val text = latin + append
     val ofs = text.length
-    if (ofs >= 4 &&
-      fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)
-    ) {
-      val chars    = text.substring(ofs - 4, ofs)
-      val cyrillic = fourGrams(chars.toLowerCase)
-      (-2, restoreCaseFirst(chars, cyrillic))
-    } else if (ofs >= 3 &&
-      triGrams.contains(text.substring(ofs - 3, ofs).toLowerCase)
-    ) {
-      val chars    = text.substring(ofs - 3, ofs)
-      val cyrillic = triGrams(chars.toLowerCase)
-      (-1, restoreCaseAll(chars, cyrillic))
-    } else if (ofs >= 2 &&
-      biGrams.contains(text.substring(ofs - 2, ofs).toLowerCase)
-    ) {
-      val chars = text.substring(ofs - 2, ofs)
-      val cyrillic = biGrams(chars.toLowerCase)
-      (-1, restoreCaseFirst(chars, cyrillic))
-    } else if (uniGrams.contains(text(ofs - 1).toLower)) {
-      val cyrillic = uniGrams(text(ofs - 1).toLower)
-      (0, if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic)
-    } else if (ofs >= 2 && text(ofs - 1) == '\'' && apostrophes) {
-      val last     = if (ofs >= 1) text(ofs - 2).toLower else '\u0000'
-      val next     = right.take(1).headOption
-      val nextTwo  = right.take(2).toLowerCase
-      val cyrillic =
-        if (apostrophePatterns.contains((last, nextTwo))) '\'' else 'ь'
-      val result =
-        if (text(ofs - 2).isUpper && !next.exists(_.isLower)) cyrillic.toUpper
-        else cyrillic
 
-      (0, result)
-    } else {
-      (0, text(ofs - 1))
-    }
+    val result =
+      if (ofs >= 4 &&
+       fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)
+      ) {
+        val chars    = text.substring(ofs - 4, ofs)
+        val cyrillic = fourGrams(chars.toLowerCase)
+        (-2, restoreCaseFirst(chars, cyrillic).toString)
+      } else if (ofs >= 3 &&
+        triGrams.contains(text.substring(ofs - 3, ofs).toLowerCase)
+      ) {
+        val chars    = text.substring(ofs - 3, ofs)
+        val cyrillic = triGrams(chars.toLowerCase)
+        (-1, restoreCaseAll(chars, cyrillic).toString)
+      } else if (ofs >= 2 &&
+        biGrams.contains(text.substring(ofs - 2, ofs).toLowerCase)
+      ) {
+        val chars = text.substring(ofs - 2, ofs)
+        val cyrillic = biGrams(chars.toLowerCase)
+        (-1, restoreCaseFirst(chars, cyrillic).toString)
+      } else if (uniGrams.contains(text(ofs - 1).toLower)) {
+        val cyrillic = uniGrams(text(ofs - 1).toLower)
+        val result = if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic
+        (0, result.toString)
+      } else if (ofs >= 2 && text(ofs - 1) == '\'' && apostrophes) {
+        val result =
+          if (ofs >= 3 && text(ofs - 2).isUpper && text(ofs - 3).isUpper) "Ь"
+          else "ь"
+        (0, result)
+      } else {
+        (0, text(ofs - 1).toString)
+      }
+
+    if (ofs >= 3 && text(ofs - 2) == '\'' && apostrophes) {
+      val (l, r) = (text(ofs - 3), text(ofs - 1))
+      val replace = if (l.isUpper && r.isUpper) 'Ь' else 'ь'
+      val softSign = cyrillic.length - 1
+
+      if (cyrillic(softSign).toLower != 'ь' || replace == cyrillic(softSign))
+        result
+      else {
+        val updated = replace + cyrillic.substring(
+          softSign + 1, cyrillic.length + result._1)
+        (-updated.length + result._1, updated + result._2)
+      }
+    } else if (ofs >= 4 && text(ofs - 3) == '\'' && apostrophes) {
+      val (l, r) = (text(ofs - 4), text.substring(ofs - 2, ofs))
+      val letter =
+        if (apostrophePatterns.contains((l.toLower, r.toLowerCase))) '\''
+        else 'ь'
+      val replace = if (l.isUpper && r.head.isUpper) letter.toUpper else letter
+      val softSign = cyrillic.length - 2
+
+      if (cyrillic(softSign).toLower != 'ь' || replace == cyrillic(softSign))
+        result
+      else {
+        val updated = replace + cyrillic.substring(
+          softSign + 1, cyrillic.length + result._1)
+        (-updated.length + result._1, updated + result._2)
+      }
+    } else result
   }
 }
 

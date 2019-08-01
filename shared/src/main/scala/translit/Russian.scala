@@ -53,29 +53,31 @@ object Russian extends Language {
     "shch" -> 'щ'
   )
 
-  def latinToCyrillicOne(left: String, c: Char, right: String): (Int, Char) = {
-    val text = left + c
+  override def latinToCyrillicIncremental(
+    latin: String, cyrillic: String, append: Char
+  ): (Int, String) = {
+    val text = latin + append
     val ofs = text.length
     if (ofs >= 4 &&
         fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)) {
       val chars = text.substring(ofs - 4, ofs)
       val cyrillic = fourGrams(chars.toLowerCase)
-      (-2, restoreCaseFirst(chars, cyrillic))
+      (-2, restoreCaseFirst(chars, cyrillic).toString)
     } else if (ofs >= 3 &&
       triGrams.contains(text.substring(ofs - 3, ofs).toLowerCase)) {
       val chars = text.substring(ofs - 3, ofs)
       val cyrillic = triGrams(chars.toLowerCase)
-      (-2, restoreCaseFirst(chars, cyrillic))
+      (-2, restoreCaseFirst(chars, cyrillic).toString)
     } else if (ofs >= 2 &&
                biGrams.contains(text.substring(ofs - 2, ofs).toLowerCase)) {
       val chars = text.substring(ofs - 2, ofs)
       val cyrillic = biGrams(chars.toLowerCase)
-      (-1, restoreCaseFirst(chars, cyrillic))
+      (-1, restoreCaseFirst(chars, cyrillic).toString)
     } else if (uniGrams.contains(text(ofs - 1).toLower)) {
       val cyrillic = uniGrams(text(ofs - 1).toLower)
-      (0, if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic)
+      (0, (if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic).toString)
     } else {
-      (0, text(ofs - 1))
+      (0, text(ofs - 1).toString)
     }
   }
 }

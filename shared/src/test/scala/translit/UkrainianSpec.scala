@@ -3,7 +3,7 @@ package translit
 import org.scalatest.FunSuite
 
 class UkrainianSpec extends FunSuite {
-  val correctMapping = List(
+  val words = List(
     "Алушта" -> "Alushta",
     "Андрій" -> "Andrij",
     "Борщагівка" -> "Borshchagivka",
@@ -12,24 +12,24 @@ class UkrainianSpec extends FunSuite {
     "Володимир" -> "Volodymyr",
     "Гадяч" -> "Gadyach",
     "Богдан" -> "Bogdan",
-    "Згурський" -> "Zgurskyj",
+    "Згурський" -> "Zgurs'kyj",
     "Ґалаґан" -> "G'alag'an",
     "Ґорґани" -> "G'org'any",
-    "Донецьк" -> "Donetsk",
+    "Донецьк" -> "Donets'k",
     "Дмитро" -> "Dmytro",
     "Рівне" -> "Rivne",
     "Олег" -> "Oleg",
-    "Есмань" -> "Esman",
+    "Есмань" -> "Esman'",
     "Єнакієве" -> "Yenakiyeve",
     "Гаєвич" -> "Gayevych",
-    "Короп'є" -> "Koropye",
+    "Короп'є" -> "Korop'ye",
     "Житомир" -> "Zhytomyr",
     "Жанна" -> "Zhanna",
     "Жежелів" -> "Zhezheliv",
     "Закарпаття" -> "Zakarpattya",
     "Казимирчук" -> "Kazymyrchuk",
     "Медвин" -> "Medvyn",
-    "Михайленко" -> "Myhajlenko",
+    "Михайленко" -> "Mykhajlenko",
     "Іванків" -> "Ivankiv",
     "Іващенко" -> "Ivashchenko",
     "Їжакевич" -> "Yizhakevych",
@@ -50,24 +50,24 @@ class UkrainianSpec extends FunSuite {
     "Полтава" -> "Poltava",
     "Петро" -> "Petro",
     "Решетилівка" -> "Reshetylivka",
-    "Рибчинський" -> "Rybchynskyj",
+    "Рибчинський" -> "Rybchyns'kyj",
     "Суми" -> "Sumy",
     "Соломія" -> "Solomiya",
-    "Тернопіль" -> "Ternopil",
-    "Троць" -> "Trots",
+    "Тернопіль" -> "Ternopil'",
+    "Троць" -> "Trots'",
     "Ужгород" -> "Uzhgorod",
     "Уляна" -> "Ulyana",
     "Фастів" -> "Fastiv",
     "Філіпчук" -> "Filipchuk",
-    "Харків" -> "Harkiv",
-    "Христина" -> "Hrystyna",
+    "Харків" -> "Kharkiv",
+    "Христина" -> "Khrystyna",
     "Біла Церква" -> "Bila Tserkva",
     "Стеценко" -> "Stetsenko",
     "Чернівці" -> "Chernivtsi",
     "Шевченко" -> "Shevchenko",
     "Шостка" -> "Shostka",
-    "Кишеньки" -> "Kyshenky",
-    "Щербухи" -> "Shcherbuhy",
+    "Кишеньки" -> "Kyshen'ky",
+    "Щербухи" -> "Shcherbukhy",
     "Гоща" -> "Goshcha",
     "Гаращенко" -> "Garashchenko",
     "Юрій" -> "Yurij",
@@ -75,19 +75,17 @@ class UkrainianSpec extends FunSuite {
     "Яготин" -> "Yagotyn",
     "Ярошенко" -> "Yaroshenko",
     "Костянтин" -> "Kostyantyn",
-    "Знам'янка" -> "Znamyanka",
+    "Знам'янка" -> "Znam'yanka",
     "Феодосія" -> "Feodosiya"
   )
 
-  def removeApostropheAndSoftSign(str: String): String =
-    str
-      .replaceAll("ь", "")
-      .replaceAll("'", "")
+  words.foreach { case (cyrillic, latin) =>
+    test(s"$cyrillic <-> $latin") {
+      assert(Ukrainian.cyrillicToLatin(cyrillic) == latin)
+      assert(Ukrainian.latinToCyrillic(latin) == cyrillic)
 
-  correctMapping.foreach { case (cyrillic, latin) =>
-    test(s"$latin -> $cyrillic") {
-      assert(Ukrainian.latinToCyrillic(latin) ==
-        removeApostropheAndSoftSign(cyrillic))
+      assert(Ukrainian.cyrillicToLatin(cyrillic.toUpperCase) == latin.toUpperCase)
+      assert(Ukrainian.latinToCyrillic(latin.toUpperCase) == cyrillic.toUpperCase)
     }
   }
 
@@ -253,9 +251,9 @@ class UkrainianSpec extends FunSuite {
   }
 
   test("сх") {
-    assert(Ukrainian.latinToCyrillic("s|hyl'nist'") == "схильність")
-    assert(Ukrainian.latinToCyrillic("s|hopyv") == "схопив")
-    assert(Ukrainian.latinToCyrillic("s|hodi") == "сході")
+    assert(Ukrainian.latinToCyrillic("skhyl'nist'") == "схильність")
+    assert(Ukrainian.latinToCyrillic("skhopyv") == "схопив")
+    assert(Ukrainian.latinToCyrillic("skhodi") == "сході")
   }
 
   test("Incremental interface") {
@@ -295,5 +293,16 @@ class UkrainianSpec extends FunSuite {
 
   test("Convenience mappings") {
     assert(Ukrainian.latinToCyrillic("cqwx") == "цщшж")
+  }
+
+  test("Cyrillic to Latin") {
+    assert(Ukrainian.cyrillicToLatin("Щ") == "Shch")
+    assert(Ukrainian.cyrillicToLatin("ЩЕ") == "SHCHE")
+
+    assert(
+      Ukrainian.cyrillicToLatin("готовність, схильність суб'єкта до поведінкового акту, дії, вчинку, їх послідовності") ==
+      "gotovnist', skhyl'nist' sub'yekta do povedinkovogo aktu, diyi, vchynku, yikh poslidovnosti")
+
+    assert(Ukrainian.cyrillicToLatin("ІЯ") == "IYA")
   }
 }

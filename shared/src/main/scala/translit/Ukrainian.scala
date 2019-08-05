@@ -14,7 +14,6 @@ class Ukrainian(apostrophes: Boolean) extends Language {
     'e' -> 'е',
     'f' -> 'ф',
     'g' -> 'г',
-    'h' -> 'х',
     'i' -> 'і',
     'j' -> 'й',
     'k' -> 'к',
@@ -34,6 +33,7 @@ class Ukrainian(apostrophes: Boolean) extends Language {
     // Mappings for more convenient typing. Allows us to cover every letter of
     // the Latin alphabet
     'c' -> 'ц',
+    'h' -> 'х',
     'q' -> 'щ',
     'w' -> 'ш',
     'x' -> 'ж'
@@ -52,8 +52,7 @@ class Ukrainian(apostrophes: Boolean) extends Language {
     "ts" -> 'ц',
     "zh" -> 'ж',
 
-    // With the vertical bar, transliteration can be disabled.
-    "s|" -> 'с'
+    "kh" -> 'х'
   )
 
   val triGrams = Map[String, Char]()
@@ -61,6 +60,15 @@ class Ukrainian(apostrophes: Boolean) extends Language {
   val fourGrams = Map(
     "shch" -> 'щ'
   )
+
+  val uniGramsInv = uniGrams.toList.map(_.swap).toMap
+  val uniGramsSpecialInv = Map(
+    'ь' -> '\'',
+    '\'' -> '\''
+  )
+  val biGramsInv = biGrams.toList.map(_.swap).toMap
+  val triGramsInv = triGrams.toList.map(_.swap).toMap
+  val fourGramsInv = fourGrams.toList.map(_.swap).toMap
 
   val apostrophePatterns = Set(
     ('b', "ya"),
@@ -156,6 +164,37 @@ class Ukrainian(apostrophes: Boolean) extends Language {
         (-updated.length + result._1, updated + result._2)
       }
     } else result
+  }
+
+  private def toLatin(letter: Char): String = {
+    val isUpper = letter.isUpper
+    val letterLc = letter.toLower
+    fourGramsInv.get(letterLc).map(applyCase(_, isUpper))
+      .orElse(triGramsInv.get(letterLc).map(applyCase(_, isUpper)))
+      .orElse(biGramsInv.get(letterLc).map(applyCase(_, isUpper)))
+      .orElse(uniGramsInv.get(letterLc).map(x => applyCase(x.toString, isUpper)))
+      .orElse(uniGramsSpecialInv.get(letterLc).map(x => applyCase(x.toString, isUpper)))
+      .getOrElse(letter.toString)
+  }
+
+  override def cyrillicToLatinIncremental(
+    cyrillic: String, letter: Char
+  ): (Int, String) = {
+    val current = toLatin(letter)
+
+    val changeCase =
+      letter.isUpper && {
+        val withoutApostrophes = cyrillic.filter(_ != '\'')
+        withoutApostrophes.length == 1 ||
+        withoutApostrophes.lastOption.exists(_.isUpper)
+      }
+
+    if (!changeCase) (0, current)
+    else {
+      val mapped = toLatin(cyrillic.last)
+      val rest = mapped.tail
+      (-rest.length, rest.toUpperCase + current.toUpperCase)
+    }
   }
 }
 

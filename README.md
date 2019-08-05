@@ -2,7 +2,7 @@
 [![Build Status](http://ci.sparse.tech/api/badges/sparsetech/translit-scala/status.svg)](http://ci.sparse.tech/sparsetech/translit-scala)
 [![Maven Central](https://img.shields.io/maven-central/v/tech.sparse/translit-scala_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22tech.sparse%22%20AND%20a%3A%22translit-scala_2.12%22)
 
-translit-scala is a transliteration library for Scala and Scala.js. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet.
+translit-scala is a transliteration library for Scala and Scala.js. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet and vice-versa.
 
 ## Compatibility
 | Back end   | Scala versions |
@@ -52,7 +52,7 @@ We decompose letters in their Latin transliteration more consistently than Natio
 * Volodymyr (Володимир)
 * blyz'ko (близько)
 
-The Latin letter *y* is also the phonetic basis of four letters in the Slavic alphabet: я, є, ї, ю. They get transliterated accordingly:
+The Latin letter *y* forms the phonetic basis of four letters (iotated vowels) in the Ukrainian alphabet: я, є, ї, ю. They get transliterated accordingly:
 
 * ya → я
 * ye → є
@@ -63,7 +63,7 @@ Unlike National 2010, we always use the same transliteration regardless of the p
 
 The accented counterpart of и is й and is represented by a separate letter, *j*.
 
-*Example:* Zhurs'kyj (Згурський)
+*Example:* Zgurs'kyj (Згурський)
 
 #### Soft Signs and Apostrophes
 The second change to National 2010 is that we try to restore soft signs and apostrophes:
@@ -71,12 +71,15 @@ The second change to National 2010 is that we try to restore soft signs and apos
 * Ukrayins'kyj (Український), malen'kyj (маленький)
 * m'yaso (м'ясо), matir'yu (матір'ю)
 
+In National 2010, *g* gets mapped to *ґ* which is phonetically accurate, though the letter *ґ* is fairly uncommon in Ukrainian. Therefore, we represent *ґ* by the bi-gram *g'*.
+
 This feature is experimental and can be disabled by setting `apostrophes` to `false`.
 
 #### Convenience mappings
 Another modification was to provide the following mappings:
 
 * c → ц
+* h → х
 * q → щ
 * w → ш
 * x → ж
@@ -91,9 +94,8 @@ Note that these mappings are phonetically inaccurate. However, using them still 
 * Another advantage is the proximity on the English keyboard layout:
     * *q* and *w* are located next to each other; *ш* and *щ* characters are phonetically close
     * *z* and *x* are located next to each other; *з* and *ж* characters are phonetically close
-
-#### Precedence
-The replacement patterns are applied sequentially by traversing the input character-by-character. In some cases, a rule spanning multiple characters should not be applied. An example is the word: схильність. The transliteration of *сх* corresponds to two separate letters *s* and *h*, which would map to *ш*. To prevent this, one can place a vertical bar between the two characters. The full transliteration then looks as follows: *s|hyl'nist*
+* *h* is mapped to *х* since it is a common letter, *kh* is only needed in case *h* is ambiguous
+	* An example is the word: схильність. The transliteration of *сх* corresponds to two separate letters *s* and *h*, which would map to *ш*. To prevent this, one can use the bi-gram *kh* instead to represent *х*. The full transliteration then looks as follows: *skhyl'nist*
 
 ## Russian
 The Russian rules are similar to the Ukrainian ones.
@@ -103,13 +105,7 @@ Some differences are:
 * *i* corresponds to *и*, whereas *y* to *ы*
 * Russian distinguishes between soft and hard signs. It does not have apostrophes. The following mappings are used:
   * Soft sign: *'* for ь
-  * Hard sign: *"* for ъ
-
-### Precedence
-As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules from being applied.
-
-* красивые: krasivy|e
-* сходить: s|hodit
+  * Hard sign: *`* for ъ
 
 ### Mapping
 | Latin | Cyrillic |
@@ -121,7 +117,7 @@ As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules
 | e     | е        |
 | f     | ф        |
 | g     | г        |
-| h     | х        |
+| h, kh | х        |
 | i     | и        |
 | j     | й        |
 | k     | к        |
@@ -141,7 +137,7 @@ As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules
 | y     | ы        |
 | z     | з        |
 | '     | ь        |
-| "     | ъ        |
+| \`    | ъ        |
 | ch    | ч        |
 | sh    | ш        |
 | ya    | я        |
@@ -151,15 +147,30 @@ As with the Ukrainian rules, a vertical bar can be placed to avoid certain rules
 | yu    | ю        |
 | shch  | щ        |
 
-#### Examples
-| Russian | Transliterated |
-|---------|----------------|
-| Привет  | Privet         |
-| Съел    | S"el           |
-| Щётка   | Shchyotka      |
-| Льдина  | L'dina         |
+### Examples
+| Russian  | Transliterated |
+|----------|----------------|
+| Привет   | Privet         |
+| Съел     | S\`el          |
+| Щётка    | Shchyotka      |
+| Льдина   | L'dina         |
+| красивые | krasivye       |
+| сходить  | skhodit'       |
 
-### Credits
+## Internals
+The replacement patterns are applied sequentially by traversing the input character-by-character. The functions `latinToCyrillicIncremental` and `cyrillicToLatinIncremental` take the left context which is needed by some rules, for example to determine the correct case of soft/hard signs. The result of the functions indicates the number of characters to remove on the right as well as their string replacement.
+
+```scala
+def latinToCyrillicIncremental(
+  latin: String, cyrillic: String, append: Char
+): (Int, String)
+
+def cyrillicToLatinIncremental(
+  cyrillic: String, letter: Char
+): (Int, String)
+```
+
+## Credits
 The rules and examples were adapted from the following libraries:
 
 * [translit-english-ukrainian](https://github.com/MarkovSergii/translit-english-ukrainian)

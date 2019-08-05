@@ -50,6 +50,12 @@ lazy val translit = crossProject.in(file("."))
     /* Use io.js for faster compilation of test cases */
     scalaJSStage in Global := FastOptStage
   )
+  .jvmSettings(
+    libraryDependencies ++= Seq(
+      "com.github.pathikrit" %%% "better-files" % "3.8.0" % "test",
+      "org.scalaj" %%% "scalaj-http" % "2.4.2" % "test"
+    )
+  )
 
 lazy val js  = translit.js
 lazy val jvm = translit.jvm

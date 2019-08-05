@@ -8,18 +8,18 @@ class UkrainianSpec extends FunSuite {
     "Андрій" -> "Andrij",
     "Борщагівка" -> "Borshchagivka",
     "Борисенко" -> "Borysenko",
-    "Вінниця" -> "Vinnytsya",
+    "Вінниця" -> "Vinnycya",
     "Володимир" -> "Volodymyr",
     "Гадяч" -> "Gadyach",
     "Богдан" -> "Bogdan",
-    "Згурський" -> "Zgurs'kyj",
+    "Згурський" -> "Zgurs`kyj",
     "Ґалаґан" -> "G'alag'an",
     "Ґорґани" -> "G'org'any",
-    "Донецьк" -> "Donets'k",
+    "Донецьк" -> "Donec`k",
     "Дмитро" -> "Dmytro",
     "Рівне" -> "Rivne",
     "Олег" -> "Oleg",
-    "Есмань" -> "Esman'",
+    "Есмань" -> "Esman`",
     "Єнакієве" -> "Yenakiyeve",
     "Гаєвич" -> "Gayevych",
     "Короп'є" -> "Korop'ye",
@@ -50,23 +50,23 @@ class UkrainianSpec extends FunSuite {
     "Полтава" -> "Poltava",
     "Петро" -> "Petro",
     "Решетилівка" -> "Reshetylivka",
-    "Рибчинський" -> "Rybchyns'kyj",
+    "Рибчинський" -> "Rybchyns`kyj",
     "Суми" -> "Sumy",
     "Соломія" -> "Solomiya",
-    "Тернопіль" -> "Ternopil'",
-    "Троць" -> "Trots'",
+    "Тернопіль" -> "Ternopil`",
+    "Троць" -> "Troc`",
     "Ужгород" -> "Uzhgorod",
     "Уляна" -> "Ulyana",
     "Фастів" -> "Fastiv",
     "Філіпчук" -> "Filipchuk",
     "Харків" -> "Kharkiv",
     "Христина" -> "Khrystyna",
-    "Біла Церква" -> "Bila Tserkva",
-    "Стеценко" -> "Stetsenko",
-    "Чернівці" -> "Chernivtsi",
+    "Біла Церква" -> "Bila Cerkva",
+    "Стеценко" -> "Stecenko",
+    "Чернівці" -> "Chernivci",
     "Шевченко" -> "Shevchenko",
     "Шостка" -> "Shostka",
-    "Кишеньки" -> "Kyshen'ky",
+    "Кишеньки" -> "Kyshen`ky",
     "Щербухи" -> "Shcherbukhy",
     "Гоща" -> "Goshcha",
     "Гаращенко" -> "Garashchenko",
@@ -76,7 +76,10 @@ class UkrainianSpec extends FunSuite {
     "Ярошенко" -> "Yaroshenko",
     "Костянтин" -> "Kostyantyn",
     "Знам'янка" -> "Znam'yanka",
-    "Феодосія" -> "Feodosiya"
+    "Феодосія" -> "Feodosiya",
+    "странствие" -> "stranstvy\\e",
+    "підтриання" -> "pidtry\\annya",
+    "Башчаршії" -> "Bash\\charshiyi"
   )
 
   words.foreach { case (cyrillic, latin) =>
@@ -94,8 +97,8 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("Kryyivka") == "Криївка")
     assert(Ukrainian.latinToCyrillic("Kategoriyi") == "Категорії")
 
-    assert(Ukrainian.latinToCyrillic("Stryjs'kyj park") == "Стрийський парк")
-    assert(Ukrainian.latinToCyrillic("Stryjs'ka") == "Стрийська")
+    assert(Ukrainian.latinToCyrillic("Stryjs`kyj park") == "Стрийський парк")
+    assert(Ukrainian.latinToCyrillic("Stryjs`ka") == "Стрийська")
     assert(Ukrainian.latinToCyrillic("kofeyin") == "кофеїн")
     assert(Ukrainian.latinToCyrillic("pryjnyatyh") == "прийнятих")
     assert(Ukrainian.latinToCyrillic("Staryj") == "Старий")
@@ -112,14 +115,14 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("Myroslava") == "Мирослава")
     assert(Ukrainian.latinToCyrillic("MYROSLAVA") == "Мирослава".toUpperCase)
 
-    assert(Ukrainian.latinToCyrillic("Al'bert".toUpperCase) == "Альберт".toUpperCase)
-    assert(Ukrainian.latinToCyrillic("Zgurs'kyj".toUpperCase) == "Згурський".toUpperCase)
+    assert(Ukrainian.latinToCyrillic("Al`bert".toUpperCase) == "Альберт".toUpperCase)
+    assert(Ukrainian.latinToCyrillic("Zgurs`kyj".toUpperCase) == "Згурський".toUpperCase)
 
-    assert(Ukrainian.latinToCyrillic("sut'") == "суть")
-    assert(Ukrainian.latinToCyrillic("SUT'") == "суть".toUpperCase)
+    assert(Ukrainian.latinToCyrillic("sut`") == "суть")
+    assert(Ukrainian.latinToCyrillic("SUT`") == "суть".toUpperCase)
   }
 
-  test("Retain apostrophes") {
+  test("Apostrophes") {
     // From https://uk.wikipedia.org/wiki/%D0%90%D0%BF%D0%BE%D1%81%D1%82%D1%80%D0%BE%D1%84
     assert(Ukrainian.latinToCyrillic("Znam'yanka") == "Знам'янка")
     assert(Ukrainian.latinToCyrillic("sim'yu") == "сім'ю")
@@ -131,7 +134,7 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("m'yaso") == "м'ясо")
     assert(Ukrainian.latinToCyrillic("rum'yanyj") == "рум'яний")
     assert(Ukrainian.latinToCyrillic("tim'ya") == "тім'я")
-    assert(Ukrainian.latinToCyrillic("meref'yans'kyj") == "мереф'янський")
+    assert(Ukrainian.latinToCyrillic("meref'yans`kyj") == "мереф'янський")
     assert(Ukrainian.latinToCyrillic("V'yacheslav") == "В'ячеслав")
     assert(Ukrainian.latinToCyrillic("Stef'yuk") == "Стеф'юк")
     assert(Ukrainian.latinToCyrillic("verb'ya") == "верб'я")
@@ -156,77 +159,76 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("roz'yushyty") == "роз'юшити")
     assert(Ukrainian.latinToCyrillic("roz'yasnyty") == "роз'яснити")
     assert(Ukrainian.latinToCyrillic("dyt'yasla") == "дит'ясла")
-    assert(Ukrainian.latinToCyrillic("pan'yevropejs'kyj") == "пан'європейський")
+    assert(Ukrainian.latinToCyrillic("pan'yevropejs`kyj") == "пан'європейський")
     assert(Ukrainian.latinToCyrillic("piv'yabluka") == "пів'яблука")
-    assert(Ukrainian.latinToCyrillic("trans'yevropejs'kyj") == "транс'європейський")
+    assert(Ukrainian.latinToCyrillic("trans'yevropejs`kyj") == "транс'європейський")
     assert(Ukrainian.latinToCyrillic("im'ya") == "ім'я")
     assert(Ukrainian.latinToCyrillic("M'yakyj") == "М'який")
     assert(Ukrainian.latinToCyrillic("ob'yekt") == "об'єкт")
     assert(Ukrainian.latinToCyrillic("pam'yataty") == "пам'ятати")
     assert(Ukrainian.latinToCyrillic("ad'yutant") == "ад'ютант")
-    assert(Ukrainian.latinToCyrillic("in'yektsiya") == "ін'єкція")
+    assert(Ukrainian.latinToCyrillic("in'yekciya") == "ін'єкція")
     assert(Ukrainian.latinToCyrillic("kon'yunktyvit") == "кон'юнктивіт")
     assert(Ukrainian.latinToCyrillic("kon'yunktura") == "кон'юнктура")
     assert(Ukrainian.latinToCyrillic("Min'yust") == "Мін'юст")
   }
 
-  test("Restore soft signs") {
-    assert(Ukrainian.latinToCyrillic("Ukrayins'kyj") == "Український")
-    assert(Ukrainian.latinToCyrillic("Yul'yen") == "Юльєн")
-    assert(Ukrainian.latinToCyrillic("Sedertel'ye") == "Седертельє")
-    assert(Ukrainian.latinToCyrillic("Lil'yedal'") == "Лільєдаль")
-    assert(Ukrainian.latinToCyrillic("Ven'yan") == "Веньян")
-    assert(Ukrainian.latinToCyrillic("piran'ya") == "піранья")
-    assert(Ukrainian.latinToCyrillic("piran'yi") == "піраньї")
-    assert(Ukrainian.latinToCyrillic("port'ye") == "портьє")
-    assert(Ukrainian.latinToCyrillic("port'yera") == "портьєра")
-    assert(Ukrainian.latinToCyrillic("rel'yef") == "рельєф")
-    assert(Ukrainian.latinToCyrillic("batal'jon") == "батальйон")
-    assert(Ukrainian.latinToCyrillic("kan'jon") == "каньйон")
-    assert(Ukrainian.latinToCyrillic("montan'yar") == "монтаньяр")
-    assert(Ukrainian.latinToCyrillic("malen'kyj") == "маленький")
-    assert(Ukrainian.latinToCyrillic("vydayet'sya") == "видається")
-    assert(Ukrainian.latinToCyrillic("vydayet'sya") == "видається")
-    assert(Ukrainian.latinToCyrillic("pas'yans") == "пасьянс")
-    assert(Ukrainian.latinToCyrillic("kon'yak") == "коньяк")
-    assert(Ukrainian.latinToCyrillic("S'ogodni") == "Сьогодні")
+  test("Soft signs") {
+    assert(Ukrainian.latinToCyrillic("Ukrayins`kyj") == "Український")
+    assert(Ukrainian.latinToCyrillic("Yul`yen") == "Юльєн")
+    assert(Ukrainian.latinToCyrillic("Sedertel`ye") == "Седертельє")
+    assert(Ukrainian.latinToCyrillic("Lil`yedal`") == "Лільєдаль")
+    assert(Ukrainian.latinToCyrillic("Ven`yan") == "Веньян")
+    assert(Ukrainian.latinToCyrillic("piran`ya") == "піранья")
+    assert(Ukrainian.latinToCyrillic("piran`yi") == "піраньї")
+    assert(Ukrainian.latinToCyrillic("port`ye") == "портьє")
+    assert(Ukrainian.latinToCyrillic("port`yera") == "портьєра")
+    assert(Ukrainian.latinToCyrillic("rel`yef") == "рельєф")
+    assert(Ukrainian.latinToCyrillic("batal`jon") == "батальйон")
+    assert(Ukrainian.latinToCyrillic("kan`jon") == "каньйон")
+    assert(Ukrainian.latinToCyrillic("montan`yar") == "монтаньяр")
+    assert(Ukrainian.latinToCyrillic("malen`kyj") == "маленький")
+    assert(Ukrainian.latinToCyrillic("vydayet`sya") == "видається")
+    assert(Ukrainian.latinToCyrillic("vydayet`sya") == "видається")
+    assert(Ukrainian.latinToCyrillic("pas`yans") == "пасьянс")
+    assert(Ukrainian.latinToCyrillic("kon`yak") == "коньяк")
+    assert(Ukrainian.latinToCyrillic("S`ogodni") == "Сьогодні")
 
     // From https://uk.wikipedia.org/wiki/%D0%AC
-    assert(Ukrainian.latinToCyrillic("vis'") == "вісь")
-    assert(Ukrainian.latinToCyrillic("g'edz'") == "ґедзь")
-    assert(Ukrainian.latinToCyrillic("kin'") == "кінь")
-    assert(Ukrainian.latinToCyrillic("mid'") == "мідь")
-    assert(Ukrainian.latinToCyrillic("namoroz'") == "наморозь")
-    assert(Ukrainian.latinToCyrillic("palets'") == "палець")
-    assert(Ukrainian.latinToCyrillic("sut'") == "суть")
-    assert(Ukrainian.latinToCyrillic("shvets'") == "швець")
-    assert(Ukrainian.latinToCyrillic("blyz'ko") == "близько")
-    assert(Ukrainian.latinToCyrillic("vos'myj") == "восьмий")
-    assert(Ukrainian.latinToCyrillic("gan'ba") == "ганьба")
-    assert(Ukrainian.latinToCyrillic("Gryts'ko") == "Грицько")
-    assert(Ukrainian.latinToCyrillic("dyad'ko") == "дядько")
-    assert(Ukrainian.latinToCyrillic("kil'tse") == "кільце")
-    assert(Ukrainian.latinToCyrillic("molot'ba") == "молотьба")
-    assert(Ukrainian.latinToCyrillic("d'ogot'") == "дьоготь")
-    assert(Ukrainian.latinToCyrillic("dz'ob") == "дзьоб")
-    assert(Ukrainian.latinToCyrillic("l'on") == "льон")
-    assert(Ukrainian.latinToCyrillic("s'omyj") == "сьомий")
-    assert(Ukrainian.latinToCyrillic("tr'oh") == "трьох")
-    assert(Ukrainian.latinToCyrillic("t'ohkaty") == "тьохкати")
+    assert(Ukrainian.latinToCyrillic("vis`") == "вісь")
+    assert(Ukrainian.latinToCyrillic("g'edz`") == "ґедзь")
+    assert(Ukrainian.latinToCyrillic("kin`") == "кінь")
+    assert(Ukrainian.latinToCyrillic("mid`") == "мідь")
+    assert(Ukrainian.latinToCyrillic("namoroz`") == "наморозь")
+    assert(Ukrainian.latinToCyrillic("palec`") == "палець")
+    assert(Ukrainian.latinToCyrillic("sut`") == "суть")
+    assert(Ukrainian.latinToCyrillic("shvec`") == "швець")
+    assert(Ukrainian.latinToCyrillic("blyz`ko") == "близько")
+    assert(Ukrainian.latinToCyrillic("vos`myj") == "восьмий")
+    assert(Ukrainian.latinToCyrillic("gan`ba") == "ганьба")
+    assert(Ukrainian.latinToCyrillic("Gryc`ko") == "Грицько")
+    assert(Ukrainian.latinToCyrillic("dyad`ko") == "дядько")
+    assert(Ukrainian.latinToCyrillic("kil`ce") == "кільце")
+    assert(Ukrainian.latinToCyrillic("molot`ba") == "молотьба")
+    assert(Ukrainian.latinToCyrillic("d`ogot`") == "дьоготь")
+    assert(Ukrainian.latinToCyrillic("dz`ob") == "дзьоб")
+    assert(Ukrainian.latinToCyrillic("l`on") == "льон")
+    assert(Ukrainian.latinToCyrillic("s`omyj") == "сьомий")
+    assert(Ukrainian.latinToCyrillic("tr`oh") == "трьох")
+    assert(Ukrainian.latinToCyrillic("t`ohkaty") == "тьохкати")
 
-    // TODO Words where the soft sign cannot be restored
-    // assert(Ukrainian.latinToCyrillic("N'yurd") == "Ньюрд")
-    // assert(Ukrainian.latinToCyrillic("N'yuton") == "Ньютон")
-    // assert(Ukrainian.latinToCyrillic("Yil't'yaur") == "Їльтьяур")
-    // assert(Ukrainian.latinToCyrillic("Gran'yerde") == "Ґраньєрде")
-    // assert(Ukrainian.latinToCyrillic("brakon'yer") == "браконьєр")
-    // assert(Ukrainian.latinToCyrillic("buton'yerka") == "бутоньєрка")
-    // assert(Ukrainian.latinToCyrillic("vin'yetka") == "віньєтка")
-    // assert(Ukrainian.latinToCyrillic("dos'ye") == "досьє")
+    assert(Ukrainian.latinToCyrillic("N`yurd") == "Ньюрд")
+    assert(Ukrainian.latinToCyrillic("N`yuton") == "Ньютон")
+    assert(Ukrainian.latinToCyrillic("Yil`t`yaur") == "Їльтьяур")
+    assert(Ukrainian.latinToCyrillic("G'ran`yerde") == "Ґраньєрде")
+    assert(Ukrainian.latinToCyrillic("brakon`yer") == "браконьєр")
+    assert(Ukrainian.latinToCyrillic("buton`yerka") == "бутоньєрка")
+    assert(Ukrainian.latinToCyrillic("vin`yetka") == "віньєтка")
+    assert(Ukrainian.latinToCyrillic("dos`ye") == "досьє")
   }
 
   test("Disambiguate soft signs and apostrophes") {
-    assert(Ukrainian.latinToCyrillic("p'yat'") == "п'ять")
+    assert(Ukrainian.latinToCyrillic("p'yat`") == "п'ять")
   }
 
   test("Examples") {
@@ -238,8 +240,8 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillic("teper") == "тепер")
     assert(Ukrainian.latinToCyrillic("shkolyar") == "школяр")
     assert(Ukrainian.latinToCyrillic("Harkiv") == "Харків")
-    assert(Ukrainian.latinToCyrillic("Al'bert Ejnshtejn") == "Альберт Ейнштейн")
-    assert(Ukrainian.latinToCyrillic("zdayut'sya") == "здаються")
+    assert(Ukrainian.latinToCyrillic("Al`bert Ejnshtejn") == "Альберт Ейнштейн")
+    assert(Ukrainian.latinToCyrillic("zdayut`sya") == "здаються")
     assert(Ukrainian.latinToCyrillic("postijnomu") == "постійному")
     assert(Ukrainian.latinToCyrillic("Jota") == "Йота")
     assert(Ukrainian.latinToCyrillic("Puzata Hata") == "Пузата Хата")
@@ -251,7 +253,7 @@ class UkrainianSpec extends FunSuite {
   }
 
   test("сх") {
-    assert(Ukrainian.latinToCyrillic("skhyl'nist'") == "схильність")
+    assert(Ukrainian.latinToCyrillic("skhyl`nist`") == "схильність")
     assert(Ukrainian.latinToCyrillic("skhopyv") == "схопив")
     assert(Ukrainian.latinToCyrillic("skhodi") == "сході")
   }
@@ -279,16 +281,16 @@ class UkrainianSpec extends FunSuite {
     assert(Ukrainian.latinToCyrillicIncremental("", "", 'z') == (0, "з"))
     assert(Ukrainian.latinToCyrillicIncremental("z", "", 'g') == (0, "г"))
 
-    assert(Ukrainian.latinToCyrillicIncremental("b", "б", '\'') == (0, "ь"))
-    assert(Ukrainian.latinToCyrillicIncremental("b'", "бь", 'y') == (0, "и"))
-    assert(Ukrainian.latinToCyrillicIncremental("b'y", "бьи", 'u') == (-2, "'ю"))
+    assert(Ukrainian.latinToCyrillicIncremental("b", "б", '`') == (0, "ь"))
+    assert(Ukrainian.latinToCyrillicIncremental("b`", "бь", 'y') == (0, "и"))
+    assert(Ukrainian.latinToCyrillicIncremental("b`y", "бьи", 'u') == (-1, "ю"))
 
-    assert(Ukrainian.latinToCyrillicIncremental("kin", "кін", '\'') == (0, "ь"))
-    assert(Ukrainian.latinToCyrillicIncremental("blyz'k", "близьк", 'o') == (0, "о"))
+    assert(Ukrainian.latinToCyrillicIncremental("kin", "кін", '`') == (0, "ь"))
+    assert(Ukrainian.latinToCyrillicIncremental("blyz`k", "близьк", 'o') == (0, "о"))
 
-    assert(Ukrainian.latinToCyrillic("S'") == "Сь")
-    assert(Ukrainian.latinToCyrillic("S'o") == "Сьо")
-    assert(Ukrainian.latinToCyrillic("S'O") == "СЬО")
+    assert(Ukrainian.latinToCyrillic("S`") == "Сь")
+    assert(Ukrainian.latinToCyrillic("S`o") == "Сьо")
+    assert(Ukrainian.latinToCyrillic("S`O") == "СЬО")
   }
 
   test("Convenience mappings") {
@@ -301,7 +303,7 @@ class UkrainianSpec extends FunSuite {
 
     assert(
       Ukrainian.cyrillicToLatin("готовність, схильність суб'єкта до поведінкового акту, дії, вчинку, їх послідовності") ==
-      "gotovnist', skhyl'nist' sub'yekta do povedinkovogo aktu, diyi, vchynku, yikh poslidovnosti")
+      "gotovnist`, skhyl`nist` sub'yekta do povedinkovogo aktu, diyi, vchynku, yikh poslidovnosti")
 
     assert(Ukrainian.cyrillicToLatin("ІЯ") == "IYA")
   }

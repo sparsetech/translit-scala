@@ -34,16 +34,16 @@ object Russian extends Language {
 
   // Infer case from previous character
   val uniGramsSpecial = Map(
-    '\'' -> 'ь',
-    '`' -> 'ъ'
+    '`' -> 'ь',
+    '~' -> 'ъ'
   )
 
   val biGrams = Map(
     "ch" -> 'ч',
     "sh" -> 'ш',
+    "zh" -> 'ж',
     "ya" -> 'я',
     "ye" -> 'э',
-    "zh" -> 'ж',
     "yo" -> 'ё',
     "yu" -> 'ю',
     "kh" -> 'х'
@@ -55,6 +55,15 @@ object Russian extends Language {
     "shch" -> 'щ'
   )
 
+  val escape = Map(
+    "ya" -> "ыа",
+    "ye" -> "ые",
+    "yo" -> "ыо",
+    "yu" -> "ыу",
+    "shch" -> "шч"
+  )
+  val escapeCharacter = '\\'
+
   val uniGramsInv = uniGrams.toList.map(_.swap).toMap
   val uniGramsSpecialInv = uniGramsSpecial.toList.map(_.swap).toMap
   val biGramsInv = biGrams.toList.map(_.swap).toMap
@@ -64,8 +73,8 @@ object Russian extends Language {
   // y after m/n/r/t/v will be rendered as ы unless it is iotated
   val yLetters = Set("my", "ny", "ry", "ty", "vy")
 
-  // If the y is iotated, render it as я, ё or ю
-  val iotatedLetters = Set("ya", "yo", "yu")
+  // If the y is iotated, render it as я, э, ё or ю
+  val iotatedLetters = Set("ya", "ye", "yo", "yu")
 
   override def latinToCyrillicIncremental(
     latin: String, cyrillic: String, append: Char
@@ -73,11 +82,23 @@ object Russian extends Language {
     val text = latin + append
     val ofs = text.length
     val result =
-      if (ofs >= 4 &&
+      if (ofs >= 5 && text.takeRight(5).toLowerCase == "sh\\ch") {
+        val cyrillic = 'ч'
+        val result   = if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic
+        (-2, result.toString)
+      } else if (ofs >= 4 &&
           fourGrams.contains(text.substring(ofs - 4, ofs).toLowerCase)) {
         val chars = text.substring(ofs - 4, ofs)
         val cyrillic = fourGrams(chars.toLowerCase)
         (-2, restoreCaseFirst(chars, cyrillic).toString)
+      } else if (ofs >= 3 &&
+        escape.keySet.contains(
+          (text(ofs - 3).toString + text(ofs - 1)).toLowerCase
+        ) && text(ofs - 2) == escapeCharacter
+      ) {
+        val cyrillic = uniGrams.getOrElse(text(ofs - 1).toLower, text(ofs - 1))
+        val result = if (text(ofs - 1).isUpper) cyrillic.toUpper else cyrillic
+        (-1, result.toString)
       } else if (ofs >= 3
         && yLetters.contains(text.substring(ofs - 3, ofs - 1).toLowerCase)
         && !iotatedLetters.contains(text.substring(ofs - 2, ofs).toLowerCase)
@@ -109,8 +130,10 @@ object Russian extends Language {
 
     if (ofs >= 3 && uniGramsSpecial.contains(text(ofs - 2))) {
       val (l, r) = (text(ofs - 3), text(ofs - 1))
-      val letter = uniGramsSpecial(text(ofs - 2))
-      val replace = if (l.isUpper && r.isUpper) letter.toUpper else letter
+
+      val letter      = uniGramsSpecial(text(ofs - 2))
+      val replace     =
+        if (l.isUpper && r.isUpper) letter.toUpper else letter
       val cyrillicOfs = cyrillic.length - 1
 
       if (replace == cyrillic(cyrillicOfs)) result
@@ -136,17 +159,23 @@ object Russian extends Language {
   override def cyrillicToLatinIncremental(
     cyrillic: String, letter: Char
   ): (Int, String) = {
-    val current = toLatin(letter)
+    val current  = toLatin(letter)
+    val toEscape = cyrillic.lastOption
+      .map(_.toLower.toString + letter.toLower)
+      .exists(escape.values.toList.contains)
 
-    val changeCase =
-      letter.isUpper &&
-      (cyrillic.length == 1 || cyrillic.lastOption.exists(_.isUpper))
-
-    if (!changeCase) (0, current)
+    if (toEscape) (0, escapeCharacter + current)
     else {
-      val mapped = toLatin(cyrillic.last)
-      val rest = mapped.tail
-      (-rest.length, rest.toUpperCase + current.toUpperCase)
+      val changeCase =
+        letter.isUpper &&
+        (cyrillic.length == 1 || cyrillic.lastOption.exists(_.isUpper))
+
+      if (!changeCase) (0, current)
+      else {
+        val mapped = toLatin(cyrillic.last)
+        val rest   = mapped.tail
+        (-rest.length, rest.toUpperCase + current.toUpperCase)
+      }
     }
   }
 }

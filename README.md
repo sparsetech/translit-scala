@@ -4,6 +4,19 @@
 
 translit-scala is a transliteration library for Scala and Scala.js. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet and vice-versa.
 
+## Features
+* Supported languages
+	* Russian
+	* Ukrainian
+* Incremental transliteration
+* Transliterations reversible with an accuracy of 99.99%
+* Transliterations optimised for typing and reading
+	* Only letters from the US keyboard are used
+	* All common letters can be typed with a single keystroke
+	* Convenience shortcuts are provided
+* Cross-platform support (JVM, Scala.js)
+* Zero dependencies
+
 ## Compatibility
 | Back end   | Scala versions |
 |:-----------|:---------------|
@@ -19,14 +32,7 @@ libraryDependencies += "tech.sparse" %%% "translit-scala" % "0.1.1"  // JavaScri
 ## Examples
 ```scala
 translit.Ukrainian.latinToCyrillic("Kyyiv")  // Київ
-translit.Russian.latinToCyrillic("pal'ma")   // пальма
-```
-
-The transliteration to Cyrillic also restores soft signs (ь) and apostrophes ('):
-
-```scala
-translit.Ukrainian.latinToCyrillic("Mar'yana")  // Мар'яна
-translit.Ukrainian.latinToCyrillic("p'yat'")    // п'ять
+translit.Russian.latinToCyrillic("pal`ma")   // пальма
 ```
 
 ## Ukrainian
@@ -35,7 +41,7 @@ There have been several attempts to standardise transliteration rules. For examp
 * Ukrayins'kyy pravopys (BGN/PCGN 1965)
 * Ukrains'kyi pravopys (National 1996)
 * Ukrainskyi pravopys ([National 2010](http://zakon1.rada.gov.ua/laws/show/55-2010-%D0%BF))
-* Ukrayins'kyj pravopys (*translit-scala*)
+* Ukrayins\`kyj pravopys (*translit-scala*)
 
 Furthermore, there are language-specific transliterations, e.g. in German and French, that use the spelling conventions of the respective language (*sch* in German instead of *sh* in English).
 
@@ -50,7 +56,7 @@ Our transliteration was initially based on National 2010, but modified in the pr
 We decompose letters in their Latin transliteration more consistently than National 2010. The letter и always gets transcribed as *y*:
 
 * Volodymyr (Володимир)
-* blyz'ko (близько)
+* blyz\`ko (близько)
 
 The Latin letter *y* forms the phonetic basis of four letters (iotated vowels) in the Ukrainian alphabet: я, є, ї, ю. They get transliterated accordingly:
 
@@ -63,17 +69,15 @@ Unlike National 2010, we always use the same transliteration regardless of the p
 
 The accented counterpart of и is й and is represented by a separate letter, *j*.
 
-*Example:* Zgurs'kyj (Згурський)
+*Example:* Zgurs\`kyj (Згурський)
 
 #### Soft Signs and Apostrophes
-The second change to National 2010 is that we try to restore soft signs and apostrophes:
+The second change to National 2010 is that we retain soft signs (ь) and apostrophes ('):
 
-* Ukrayins'kyj (Український), malen'kyj (маленький)
+* Ukrayins\`kyj (Український), malen\`kyj (маленький)
 * m'yaso (м'ясо), matir'yu (матір'ю)
 
 In National 2010, *g* gets mapped to *ґ* which is phonetically accurate, though the letter *ґ* is fairly uncommon in Ukrainian. Therefore, we represent *ґ* by the bi-gram *g'*.
-
-This feature is experimental and can be disabled by setting `apostrophes` to `false`.
 
 #### Convenience mappings
 Another modification was to provide the following mappings:
@@ -95,7 +99,14 @@ Note that these mappings are phonetically inaccurate. However, using them still 
     * *q* and *w* are located next to each other; *ш* and *щ* characters are phonetically close
     * *z* and *x* are located next to each other; *з* and *ж* characters are phonetically close
 * *h* is mapped to *х* since it is a common letter, *kh* is only needed in case *h* is ambiguous
-	* An example is the word: схильність. The transliteration of *сх* corresponds to two separate letters *s* and *h*, which would map to *ш*. To prevent this, one can use the bi-gram *kh* instead to represent *х*. The full transliteration then looks as follows: *skhyl'nist*
+	* An example is the word: схильність. The transliteration of *сх* corresponds to two separate letters *s* and *h*, which would map to *ш*. To prevent this, one can use the bi-gram *kh* instead to represent *х*. The full transliteration then looks as follows: *skhyl\`nist*
+
+#### Escaping
+You can insert a backslash (\\) if a replacement rule should not be applied, for example:
+
+* stranstvy\e -> странствие
+* pidtry\annya -> підтриання
+* Bash\charshiyi -> Башчаршії
 
 ## Russian
 The Russian rules are similar to the Ukrainian ones.
@@ -103,9 +114,9 @@ The Russian rules are similar to the Ukrainian ones.
 Some differences are:
 
 * *i* corresponds to *и*, whereas *y* to *ы*
-* Russian distinguishes between soft and hard signs. It does not have apostrophes. The following mappings are used:
-  * Soft sign: *'* for ь
-  * Hard sign: *`* for ъ
+* Russian distinguishes between soft and hard signs. Apostrophes only appear in foreign names. The following mappings are used:
+  * Soft sign: *`* for ь
+  * Hard sign: *~* for ъ
 
 ### Mapping
 | Latin | Cyrillic |
@@ -136,8 +147,8 @@ Some differences are:
 | x     | ж        |
 | y     | ы        |
 | z     | з        |
-| '     | ь        |
-| \`    | ъ        |
+| \`    | ь        |
+| ~     | ъ        |
 | ch    | ч        |
 | sh    | ш        |
 | ya    | я        |
@@ -151,11 +162,11 @@ Some differences are:
 | Russian  | Transliterated |
 |----------|----------------|
 | Привет   | Privet         |
-| Съел     | S\`el          |
+| Съел     | S~el           |
 | Щётка    | Shchyotka      |
-| Льдина   | L'dina         |
-| красивые | krasivye       |
-| сходить  | skhodit'       |
+| Льдина   | L\`dina        |
+| красивые | krasivy\e      |
+| сходить  | skhodit\`      |
 
 ## Internals
 The replacement patterns are applied sequentially by traversing the input character-by-character. The functions `latinToCyrillicIncremental` and `cyrillicToLatinIncremental` take the left context which is needed by some rules, for example to determine the correct case of soft/hard signs. The result of the functions indicates the number of characters to remove on the right as well as their string replacement.
@@ -170,8 +181,16 @@ def cyrillicToLatinIncremental(
 ): (Int, String)
 ```
 
+## Performance
+The test suite evaluates whether transliterations are reversible. The accuracy is calculated on words extracted from Wikipedia article dumps for all supported languages. Words are transliterated to Latin and then back to Cyrillic. A word counts as correct if the result of the reversed transliteration matches the original.
+
+| Language  | Total     | Correct   | Accuracy |
+|-----------|-----------|-----------|----------|
+| Ukrainian | 1,811,772 | 1,811,661 | 99.99%   |
+| Russian   | 1,529,184 | 1,529,043 | 99.99%   |
+
 ## Credits
-The rules and examples were adapted from the following libraries:
+The rules and examples were adapted from the following libraries and websites:
 
 * [translit-english-ukrainian](https://github.com/MarkovSergii/translit-english-ukrainian)
 * [translit-ua](https://github.com/dchaplinsky/translit-ua)

@@ -1,5 +1,3 @@
-.bloop/
-
 *.class
 *.log
 
@@ -17,4 +15,7 @@ project/plugins/project/
 # Scala-IDE specific
 .scala_dependencies
 .worksheet
-.idea
+
+.bloop/
+/.idea/
+/.metals/

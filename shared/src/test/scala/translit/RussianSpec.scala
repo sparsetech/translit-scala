@@ -7,33 +7,34 @@ class RussianSpec extends FunSuite {
     "Андрей" -> "Andrej",
     "Борис" -> "Boris",
     "Валера" -> "Valera",
-    "гвоздь" -> "gvozd'",
+    "гвоздь" -> "gvozd`",
     "днище" -> "dnishche",
     "Емеля" -> "Emelya",
     "ёлка" -> "yolka",
     "железо" -> "zhelezo",
-    "зыбь" -> "zyb'",
-    "Ильин" -> "Il'in",
+    "зыбь" -> "zyb`",
+    "Ильин" -> "Il`in",
     "Йемен" -> "Jemen",
     "киянка" -> "kiyanka",
     "лещ" -> "leshch",
-    "мышьяк" -> "mysh'yak",
+    "мышьяк" -> "mysh`yak",
     "Новгород" -> "Novgorod",
     "овраг" -> "ovrag",
-    "пьянство" -> "p'yanstvo",
+    "пьянство" -> "p`yanstvo",
     "роща" -> "roshcha",
-    "съел" -> "s`el",
+    "съел" -> "s~el",
     "тележка" -> "telezhka",
     "ухват" -> "ukhvat",
-    "фольклор" -> "fol'klor",
+    "фольклор" -> "fol`klor",
     "халтура" -> "khaltura",
     "цвет" -> "cvet",
-    "червь" -> "cherv'",
+    "червь" -> "cherv`",
     "швея" -> "shveya",
-    "щавель" -> "shchavel'",
+    "щавель" -> "shchavel`",
     "электровоз" -> "yelektrovoz",
     "юла" -> "yula",
-    "ягненок" -> "yagnenok"
+    "ягненок" -> "yagnenok",
+    "выучил" -> "vy\\uchil"
   )
 
   words.foreach { case (cyrillic, latin) =>
@@ -48,11 +49,11 @@ class RussianSpec extends FunSuite {
 
   test("Other words") {
     assert(Russian.latinToCyrillic("peshkom" ) == "пешком")
-    assert(Russian.latinToCyrillic("zhizn'"  ) == "жизнь")
+    assert(Russian.latinToCyrillic("zhizn`"  ) == "жизнь")
     assert(Russian.latinToCyrillic("shchetka") == "щетка")
     assert(Russian.latinToCyrillic("rajon") == "район")
     assert(Russian.latinToCyrillic("schitayu") == "считаю")
-    assert(Russian.latinToCyrillic("proiskhodit'") == "происходить")
+    assert(Russian.latinToCyrillic("proiskhodit`") == "происходить")
     assert(Russian.latinToCyrillic("shirokoe") == "широкое")
     assert(Russian.latinToCyrillic("carivshij") == "царивший")
     assert(Russian.latinToCyrillic("polusharii") == "полушарии")
@@ -60,10 +61,10 @@ class RussianSpec extends FunSuite {
 
   test("ye exceptions") {
     // In this context, ye should not be mapped onto э
-    assert(Russian.latinToCyrillic("krasivye") == "красивые")
-    assert(Russian.latinToCyrillic("mezhdunarodnye") == "международные")
-    assert(Russian.latinToCyrillic("nekotorye") == "некоторые")
-    assert(Russian.latinToCyrillic("vyhodnye") == "выходные")
+    assert(Russian.latinToCyrillic("krasivy\\e") == "красивые")
+    assert(Russian.latinToCyrillic("mezhdunarodny\\e") == "международные")
+    assert(Russian.latinToCyrillic("nekotory\\e") == "некоторые")
+    assert(Russian.latinToCyrillic("vyhodny\\e") == "выходные")
   }
 
   test("ya") {
@@ -77,33 +78,34 @@ class RussianSpec extends FunSuite {
     assert(Russian.latinToCyrillic("nablyudaem") == "наблюдаем")
   }
 
-  ignore("yu (exception)") {
-    // TODO Not covered yet
-    assert(Russian.latinToCyrillic("vyuchil") == "выучил")
+  test("Apostrophes") {
+    assert(Russian.latinToCyrillic("54'636") == "54'636")
+    assert(Russian.latinToCyrillic("d'Yespuar") == "д'Эспуар")
+    assert(Russian.latinToCyrillic("SSSR'78") == "СССР'78")
+    assert(Russian.latinToCyrillic("O'Kallagan") == "О'Каллаган")
   }
 
-  ignore("ye") {
-    // TODO Foreign words conflict with some rules
+  test("ye") {
     assert(Russian.latinToCyrillic("ryeggi") == "рэгги")
     assert(Russian.latinToCyrillic("myenskim") == "мэнским")
     assert(Russian.latinToCyrillic("Gryemom") == "Грэмом")
     assert(Russian.latinToCyrillic("Bryegg") == "Брэгг")
     assert(Russian.latinToCyrillic("Revyu") == "Ревю")
-    assert(Russian.latinToCyrillic("Umyeo") == "Умэко")
+    assert(Russian.latinToCyrillic("Umyeko") == "Умэко")
   }
 
   test("Restore case") {
-    assert(Russian.latinToCyrillic("ZHIZN'") == "ЖИЗНЬ")
-    assert(Russian.latinToCyrillic("LOZH'") == "ЛОЖЬ")
-    assert(Russian.latinToCyrillic("FLAG`") == "ФЛАГЪ")
-    assert(Russian.latinToCyrillic("Ya.Shmid`") == "Я.Шмидъ")
+    assert(Russian.latinToCyrillic("ZHIZN`") == "ЖИЗНЬ")
+    assert(Russian.latinToCyrillic("LOZH`") == "ЛОЖЬ")
+    assert(Russian.latinToCyrillic("FLAG~") == "ФЛАГЪ")
+    assert(Russian.latinToCyrillic("Ya.Shmid~") == "Я.Шмидъ")
   }
 
   test("Incremental transliteration") {
     assert(Russian.latinToCyrillic("vy") == "вы")
-    assert(Russian.latinToCyrillic("S'") == "Сь")
-    assert(Russian.latinToCyrillic("S'o") == "Сьо")
-    assert(Russian.latinToCyrillic("S'O") == "СЬО")
+    assert(Russian.latinToCyrillic("S`") == "Сь")
+    assert(Russian.latinToCyrillic("S`o") == "Сьо")
+    assert(Russian.latinToCyrillic("S`O") == "СЬО")
   }
 
   test("Cyrillic to Latin") {
@@ -111,6 +113,6 @@ class RussianSpec extends FunSuite {
     assert(latin == "Ferdinand Tennis, opisal dva vazhnejshikh sociologicheskikh abstraktnykh ponyatiya")
 
     val latin2 = Russian.cyrillicToLatin("Звезда расположена в главной части созвездия приблизительно посередине между Гаммой Лебедя и Альбирео.")
-    assert(latin2 == "Zvezda raspolozhena v glavnoj chasti sozvezdiya priblizitel'no poseredine mezhdu Gammoj Lebedya i Al'bireo.")
+    assert(latin2 == "Zvezda raspolozhena v glavnoj chasti sozvezdiya priblizitel`no poseredine mezhdu Gammoj Lebedya i Al`bireo.")
   }
 }

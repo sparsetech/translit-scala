@@ -2,8 +2,15 @@ kind: pipeline
 name: default
 steps:
   - name: test
-    image: tindzk/seed:0.1.4
+    image: tindzk/seed:0.1.5
     commands:
       - blp-server &
-      - seed bloop
+      - seed --build=build211.toml bloop
+      - sleep 5  # Synchronise analysis.bin files, otherwise rm might fail
+      - bloop compile translit-native
+      - bloop test translit-jvm translit-js
+      - seed --build=build212.toml bloop
+      - bloop test translit-jvm translit-js
+      - sleep 5
+      - seed bloop --build=build213.toml
       - bloop test translit-jvm translit-js

@@ -2,7 +2,7 @@
 [![Build Status](http://ci.sparse.tech/api/badges/sparsetech/translit-scala/status.svg)](http://ci.sparse.tech/sparsetech/translit-scala)
 [![Maven Central](https://img.shields.io/maven-central/v/tech.sparse/translit-scala_2.12.svg)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22tech.sparse%22%20AND%20a%3A%22translit-scala_2.12%22)
 
-translit-scala is a transliteration library for Scala and Scala.js. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet and vice-versa.
+translit-scala is a transliteration library for the Scala platform. It implements transliteration rules for Slavic languages. It supports converting texts from the Latin to the Cyrillic alphabet and vice-versa.
 
 ## Features
 * Supported languages
@@ -14,14 +14,15 @@ translit-scala is a transliteration library for Scala and Scala.js. It implement
 	* Only letters from the US keyboard are used
 	* All common letters can be typed with a single keystroke
 	* Convenience shortcuts are provided
-* Cross-platform support (JVM, Scala.js)
+* Cross-platform support (JVM, Scala.js, Scala Native)
 * Zero dependencies
 
 ## Compatibility
-| Back end   | Scala versions |
-|:-----------|:---------------|
-| JVM        | 2.11, 2.12     |
-| JavaScript | 2.11, 2.12     |
+| Back end   | Scala versions   |
+|:-----------|:-----------------|
+| JVM        | 2.11, 2.12, 2.13 |
+| JavaScript | 2.11, 2.12, 2.13 |
+| Native     | 2.11             |
 
 ## Dependencies
 ```scala

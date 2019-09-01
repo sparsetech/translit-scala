@@ -1,0 +1,45 @@
+[project]
+scalaVersion       = "2.11.12"
+scalaJsVersion     = "0.6.28"
+scalaNativeVersion = "0.3.9"
+scalaOptions       = [
+  "-encoding", "UTF-8",
+  "-unchecked",
+  "-deprecation",
+  "-Xfuture",
+  "-Ywarn-numeric-widen",
+  "-feature"
+]
+testFrameworks = [
+  "org.scalatest.tools.Framework"
+]
+
+[module.translit]
+root    = "shared"
+sources = ["shared/src/main/scala"]
+targets = ["js", "jvm", "native"]
+
+[module.translit.jvm]
+root = "jvm"
+
+[module.translit.test]
+sources   = ["shared/src/test/scala"]
+targets   = ["js", "jvm", "native"]
+
+[module.translit.test.jvm]
+sources   = ["jvm/src/test/scala"]
+scalaDeps = [
+  ["org.scalatest", "scalatest", "3.0.8"],
+  ["com.github.pathikrit", "better-files", "3.8.0"],
+  ["org.scalaj", "scalaj-http", "2.4.2"]
+]
+
+[module.translit.test.js]
+scalaDeps = [
+  ["org.scalatest", "scalatest", "3.0.8"]
+]
+
+[module.translit.test.native]
+scalaDeps = [
+  ["org.scalatest", "scalatest", "3.2.0-SNAP10"]
+]

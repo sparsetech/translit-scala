@@ -1,12 +1,13 @@
 val Scala2_11  = "2.11.12"
-val Scala2_12  = "2.12.8"
+val Scala2_12  = "2.12.10"
+val Scala2_13  = "2.13.1"
 val ScalaTest  = "3.0.8"
 
 val SharedSettings = Seq(
   name := "translit-scala",
   organization := "tech.sparse",
-  scalaVersion := Scala2_12,
-  crossScalaVersions := Seq(Scala2_12, Scala2_11),
+  scalaVersion := Scala2_13,
+  crossScalaVersions := Seq(Scala2_13, Scala2_12, Scala2_11),
   scalacOptions := Seq(
     "-unchecked",
     "-deprecation",

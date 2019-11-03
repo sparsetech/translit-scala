@@ -1,5 +1,5 @@
 [project]
-scalaVersion   = "2.13.0"
+scalaVersion   = "2.13.1"
 scalaJsVersion = "0.6.28"
 scalaOptions   = [
   "-encoding", "UTF-8",

@@ -1,6 +1,8 @@
 language: scala
 scala:
-  - 2.12.4
+  - 2.11.12
+  - 2.12.10
+  - 2.13.1
 jdk:
   - openjdk8
 
@@ -9,8 +11,6 @@ install:
   - . $HOME/.nvm/nvm.sh
   - nvm install stable
   - nvm use stable
-  - npm install
-  - npm install jsdom
 
 # See https://github.com/scala-js/scala-js/issues/2642
 script:

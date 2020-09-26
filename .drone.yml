@@ -2,8 +2,10 @@ kind: pipeline
 name: default
 steps:
   - name: test
-    image: tindzk/seed:0.1.5
+    image: tindzk/seed:0.1.7
     commands:
+      # Patch Bloop version to support Scala.js 1.0
+      - apk add --no-cache curl && curl -L https://github.com/scalacenter/bloop/releases/download/v1.4.0-RC1/install.py | python - -d /usr/bin/ -v 1.4.0-RC1-229-b7c15aa9 || true
       - blp-server &
       - seed --build=build211.toml bloop
       - sleep 5  # Synchronise analysis.bin files, otherwise rm might fail

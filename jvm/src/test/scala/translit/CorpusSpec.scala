@@ -3,10 +3,10 @@ package translit
 import java.nio.charset.Charset
 
 import better.files._
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 import scalaj.http.Http
 
-class CorpusSpec extends FunSuite {
+class CorpusSpec extends AnyFunSuite {
   def getDump(name: String): File = {
     val file = File(s"/tmp/$name")
     if (file.exists) file

@@ -1,6 +1,6 @@
 [project]
-scalaVersion   = "2.12.10"
-scalaJsVersion = "0.6.28"
+scalaVersion   = "2.12.12"
+scalaJsVersion = "1.0.1"
 scalaOptions   = [
   "-encoding", "UTF-8",
   "-unchecked",
@@ -25,12 +25,12 @@ root = "jvm"
 sources   = ["shared/src/test/scala"]
 targets   = ["js", "jvm"]
 scalaDeps = [
-  ["org.scalatest", "scalatest", "3.0.8"]
+  ["org.scalatest", "scalatest", "3.1.1"]
 ]
 
 [module.translit.test.jvm]
 sources   = ["jvm/src/test/scala"]
 scalaDeps = [
-  ["com.github.pathikrit", "better-files", "3.8.0"],
+  ["com.github.pathikrit", "better-files", "3.9.1"],
   ["org.scalaj", "scalaj-http", "2.4.2"]
 ]

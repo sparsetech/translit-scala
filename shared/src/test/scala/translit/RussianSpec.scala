@@ -1,8 +1,8 @@
 package translit
 
-import org.scalatest.FunSuite
+import org.scalatest.funsuite.AnyFunSuite
 
-class RussianSpec extends FunSuite {
+class RussianSpec extends AnyFunSuite {
   val words = List(
     "Андрей" -> "Andrej",
     "Борис" -> "Boris",
